@@ -22,6 +22,8 @@ class Home extends CI_Controller {
 	 public function __construct()
      {
           parent::__construct();
+		  
+		  //Load Necessary Libraries and helpers
           $this->load->library('session');
           $this->load->helper('form');
           $this->load->helper('url');
@@ -35,15 +37,18 @@ class Home extends CI_Controller {
 	{
 		if(isset($_SESSION["user_id"]))
 		{
+			//Comment The 'echo's 
 			//Redirect To Homepage
 			echo 'Already Logged In. </br>';
 			echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
-			//Load Success Page
 		}
 		else
 		{
 			$this->load->view('home');
 			//Form Validation Required
+			//$this->load->library('form_validation');
+			//$this->form_validation->set_rules('email', 'Email', 'required');
+			//$this->form_validation->set_rules('password', 'Password', 'required');
 		}
 	}
 	
@@ -66,14 +71,15 @@ class Home extends CI_Controller {
             //header("Location:home.php");
 			echo 'Success </br>';
 			echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
-			//Load Success Page
-			
+			//Load User Home Page
+			//redirect('/user/home', 'refresh');
 		}
 		else
 		{
+			//Comment This
 			echo 'Failue';
 			//Load Failure Message
-			
+			redirect('/home', 'refresh');
 		}
 	}
 	
@@ -110,6 +116,15 @@ class Home extends CI_Controller {
 	public function scoring()
 	{
 		echo "scorings Test";
+	}
+	
+	public function logout()
+	{
+		//Stop Session
+		$this->session->sess_destroy();
+		
+		//Redirect To Homepage
+		redirect('/home', 'refresh');
 	}
 	
 }
