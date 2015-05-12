@@ -29,6 +29,7 @@ class Home extends CI_Controller {
           $this->load->helper('url');
           $this->load->helper('html');
 		  $this->load->library('form_validation');
+		  $this->load->model('user_model');
           
 		  //$this->load->database();
      }
@@ -44,7 +45,7 @@ class Home extends CI_Controller {
 		}
 		else
 		{
-			//$this->load->view('templates/header');
+			$this->load->view('templates/header');
 			$this->load->view('home');
 			//Form Validation Required
 			//$this->load->library('form_validation');
@@ -55,7 +56,6 @@ class Home extends CI_Controller {
 	
 	public function login()
 	{
-		$this->load->model('user_model');
 		
 		$data = array('email'=>trim($_POST['email']),'password'=>md5($_POST["password"]));
 		
@@ -86,7 +86,57 @@ class Home extends CI_Controller {
 	
 	public function register()
 	{
-		echo "Register Test";
+		if(isset($_SESSION["user_id"]))
+		{
+			//Comment The 'echo's 
+			//Redirect To Homepage
+			echo 'Already Logged In. </br>';
+			echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
+		}
+		else
+		{
+			$this->load->view('templates/header');
+			$this->load->view('registration');
+
+			$pass=md5($this->input->post('password'));
+			$conpass=md5($this->input->post('confirm_password'));
+
+			if($pass!=$conpass) echo 'Password and confirm_password Not Matched';
+			else
+			{
+				$data['user_id'] ='';
+				$data['user_team_name'] ='';
+
+				$data['user_name'] =trim($this->input->post('user_name'));
+				$data['email'] =trim($this->input->post('email'));
+				$data['password'] =$pass;
+				
+				if(isset($_POST['birthday']) && !empty($_POST['birthday'])) $data['birthday'] =$this->input->post('birthday');
+				else $data['birthday'] ='';
+
+				if(isset($_POST['country']) && !empty($_POST['country'])) $data['country'] =$this->input->post('country');
+				else $data['country'] ='';
+
+
+				$exists= $this->user_model->exist_user($data['email']);
+
+				if($exists==1)
+				{
+					echo '</br> User Already Exists';
+				}
+				else
+				{
+					$this->user_model->register($data);
+					echo '</br> Registered Successfully';
+				}
+				
+			}
+			//Form Validation Required
+			//$this->load->library('form_validation');
+			//$this->form_validation->set_rules('email', 'Email', 'required');
+			//$this->form_validation->set_rules('password', 'Password', 'required');
+		}
+
 	}
 	
 	public function schedules()
