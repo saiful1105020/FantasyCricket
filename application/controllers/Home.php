@@ -44,6 +44,7 @@ class Home extends CI_Controller {
 		}
 		else
 		{
+			//$this->load->view('templates/header');
 			$this->load->view('home');
 			//Form Validation Required
 			//$this->load->library('form_validation');
