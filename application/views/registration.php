@@ -1,4 +1,21 @@
 
+<?php
+	if($password_match_error==true)
+	{	
+		echo '<div class="alert alert-danger">
+				<strong><span class="glyphicon glyphicon-remove"></span> Password and Confirm Password didn\'t match </strong>
+			 </div>';
+	}
+?>
+
+<?php
+	if($already_exist_error==true)
+	{	
+		echo '<div class="alert alert-danger">
+				<strong><span class="glyphicon glyphicon-remove"></span> This E-mail ID is already registered </strong>
+			 </div>';
+	}
+?>
 
  <div class="container">
     <div class="row">

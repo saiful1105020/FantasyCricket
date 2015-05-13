@@ -33,9 +33,6 @@ class Home extends CI_Controller {
           $this->load->helper('html');
 		  $this->load->library('form_validation');
 		  $this->load->model('user_model');
-          
-		  //$this->loginFlag = true;
-		  //$this->load->database();
      }
 	 
 	public function index()
@@ -58,11 +55,6 @@ class Home extends CI_Controller {
 			);
 			
 			$this->load->view('home',$data);
-			
-			//Form Validation Required
-			//$this->load->library('form_validation');
-			//$this->form_validation->set_rules('email', 'Email', 'required');
-			//$this->form_validation->set_rules('password', 'Password', 'required');
 		}
 	}
 	
@@ -75,26 +67,19 @@ class Home extends CI_Controller {
 		
 		if($query->num_rows()==1)
 		{
-			//$this->loginFlag = true;
-			
 			$loginInfo=$query->row_array();
 			
 			$_SESSION["user_id"]=$loginInfo['user_id'];
 			$_SESSION["user_name"]=$loginInfo['user_name'];
 			
 			
-            //header("Location:home.php");
-			echo 'Success </br>';
+            echo 'Success </br>';
 			echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
 			//Load User Home Page
 			//redirect('/user/home', 'refresh');
 		}
 		else
 		{
-			//Comment This
-			//echo 'Failue';
-			//Load Failure Message
-			//$this->loginFlag = false;
 			$data = array(
                'login_error' => true
 			);
@@ -116,13 +101,12 @@ class Home extends CI_Controller {
 		}
 		else
 		{
+			$data=array(
+				'password_match_error' => false,
+				'already_exist_error'=> false
+			);
 			$this->load->view('templates/header');
-			$this->load->view('registration');
-
-			//Form Validation Required
-			//$this->load->library('form_validation');
-			//$this->form_validation->set_rules('email', 'Email', 'required');
-			//$this->form_validation->set_rules('password', 'Password', 'required');
+			$this->load->view('registration',$data);
 		}
 
 	}
@@ -132,7 +116,17 @@ class Home extends CI_Controller {
 			$pass=md5($this->input->post('password'));
 			$conpass=md5($this->input->post('confirm_password'));
 
-			if($pass!=$conpass) echo 'Password and confirm_password Not Matched';
+			if($pass!=$conpass)
+			{
+				$data=array(
+				'password_match_error' => true,
+				'already_exist_error'=> false
+				);
+				$this->load->view('templates/header');
+				$this->load->view('registration',$data);
+				//echo 'Password and confirm_password Not Matched';
+			}
+			
 			else
 			{
 				$data['user_id'] ='';
@@ -153,7 +147,14 @@ class Home extends CI_Controller {
 
 				if($exists==1)
 				{
-					echo '</br> User Already Exists';
+					$data=array(
+					'password_match_error' => false,
+					'already_exist_error'=> true
+					);
+					$this->load->view('templates/header');
+					$this->load->view('registration',$data);
+					
+					//echo '</br> User Already Exists';
 				}
 				else
 				{
