@@ -21,6 +21,12 @@
 				<strong><span class="glyphicon glyphicon-remove"></span> Login Failed! Username and password didn\'t match </strong>
 			 </div>';
 	}
+	if($registration_success==true)
+	{	
+		echo '<div class="alert alert-success">
+				<strong><span class="glyphicon glyphicon-ok"></span> Registration Completed. </strong>
+			 </div>';
+	}
   ?>
 		
   <div id="myCarousel" class="carousel slide" data-ride="carousel">

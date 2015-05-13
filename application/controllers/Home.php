@@ -51,7 +51,8 @@ class Home extends CI_Controller {
 			$this->load->view('templates/header');
 			
 			$data = array(
-               'login_error' => false
+               'login_error' => false,
+			   'registration_success' => false
 			);
 			
 			$this->load->view('home',$data);
@@ -81,7 +82,8 @@ class Home extends CI_Controller {
 		else
 		{
 			$data = array(
-               'login_error' => true
+               'login_error' => true,
+			   'registration_success' => false
 			);
 			$this->load->view('templates/header');
 			
@@ -159,7 +161,15 @@ class Home extends CI_Controller {
 				else
 				{
 					$this->user_model->register($data);
-					echo '</br> Registered Successfully';
+					$data = array(
+					   'login_error' => false,
+					   'registration_success' => true
+					);
+					$this->load->view('templates/header');
+					
+					$this->load->view('home',$data);
+					
+					//echo '</br> Registered Successfully';
 				}
 				
 			}
