@@ -15,17 +15,19 @@
   <br>
   
   <?php
-	if(1==2)
-	{
-		echo 'Failed!';
-		
-		echo '<div class="col-lg-5 col-md-push-1">
+	if($login_error==true)
+	{	
+		echo '<div class="alert alert-danger">
+				<strong><span class="glyphicon glyphicon-remove"></span> Login Failed! Username and password didn\'t match </strong>
+			 </div>';
+		/**<div class="col-lg-3 col-md-push-1">
 				<div class="col-md-12">
 					<div class="alert alert-danger">
 						<strong><span class="glyphicon glyphicon-ok"></span> Login Failed! Username and password didn\'t match </strong>
 					</div>
 				</div>
 			</div>';
+			*/
 	}
   ?>
 		

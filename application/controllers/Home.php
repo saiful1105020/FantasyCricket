@@ -44,6 +44,7 @@ class Home extends CI_Controller {
 		{
 			//Comment The 'echo's 
 			//Redirect To Homepage
+			
 			echo 'Already Logged In. </br>';
 			echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
 		}
@@ -52,7 +53,12 @@ class Home extends CI_Controller {
 			
 			$this->load->view('templates/header');
 			
-			$this->load->view('home');
+			$data = array(
+               'login_error' => false
+			);
+			
+			$this->load->view('home',$data);
+			
 			//Form Validation Required
 			//$this->load->library('form_validation');
 			//$this->form_validation->set_rules('email', 'Email', 'required');
@@ -89,7 +95,13 @@ class Home extends CI_Controller {
 			//echo 'Failue';
 			//Load Failure Message
 			//$this->loginFlag = false;
-			redirect('/home', 'refresh');
+			$data = array(
+               'login_error' => true
+			);
+			$this->load->view('templates/header');
+			
+			$this->load->view('home',$data);
+			
 		}
 	}
 	

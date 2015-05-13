@@ -41,17 +41,16 @@
       <form name = "loginForm" method = "post" action="<?php echo site_url('home/login'); ?>" class="navbar-form navbar-left" role="search">
         <div class="form-group">
 		
-          <input type="text" name ="email" class="form-control" placeholder="E-mail">
+          <input type="email" name ="email" class="form-control" placeholder="E-mail" required>
         </div>
         <div class="form-group">
-          <input type="password" name ="password" class="form-control" placeholder="Password">
+          <input type="password" name ="password" class="form-control" placeholder="Password" required>
         </div>
         <button type="submit" class="btn btn-default">Sign-In</button>
       </form>
 
       <ul class="nav navbar-nav navbar-right">
         <li><a href="<?php echo site_url('home/register'); ?>">Sign-Up</a></li>
-        <li><a href="#">Link</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
