@@ -1,5 +1,5 @@
 	
-    <style>
+   <style>
   .carousel-inner > .item > img,
   .carousel-inner > .item > a > img {
       width: 100%;
@@ -13,6 +13,22 @@
 
 <div class="container">
   <br>
+  
+  <?php
+	if(1==2)
+	{
+		echo 'Failed!';
+		
+		echo '<div class="col-lg-5 col-md-push-1">
+				<div class="col-md-12">
+					<div class="alert alert-danger">
+						<strong><span class="glyphicon glyphicon-ok"></span> Login Failed! Username and password didn\'t match </strong>
+					</div>
+				</div>
+			</div>';
+	}
+  ?>
+		
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">

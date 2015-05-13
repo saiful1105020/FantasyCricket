@@ -19,6 +19,9 @@ class Home extends CI_Controller {
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
 	 
+	 //private $loginFlag;		//$loginFlag = false show "Login Failed" in the view
+	 
+	 
 	 public function __construct()
      {
           parent::__construct();
@@ -31,6 +34,7 @@ class Home extends CI_Controller {
 		  $this->load->library('form_validation');
 		  $this->load->model('user_model');
           
+		  //$this->loginFlag = true;
 		  //$this->load->database();
      }
 	 
@@ -45,7 +49,9 @@ class Home extends CI_Controller {
 		}
 		else
 		{
+			
 			$this->load->view('templates/header');
+			
 			$this->load->view('home');
 			//Form Validation Required
 			//$this->load->library('form_validation');
@@ -63,6 +69,8 @@ class Home extends CI_Controller {
 		
 		if($query->num_rows()==1)
 		{
+			//$this->loginFlag = true;
+			
 			$loginInfo=$query->row_array();
 			
 			$_SESSION["user_id"]=$loginInfo['user_id'];
@@ -78,8 +86,9 @@ class Home extends CI_Controller {
 		else
 		{
 			//Comment This
-			echo 'Failue';
+			//echo 'Failue';
 			//Load Failure Message
+			//$this->loginFlag = false;
 			redirect('/home', 'refresh');
 		}
 	}
@@ -98,6 +107,16 @@ class Home extends CI_Controller {
 			$this->load->view('templates/header');
 			$this->load->view('registration');
 
+			//Form Validation Required
+			//$this->load->library('form_validation');
+			//$this->form_validation->set_rules('email', 'Email', 'required');
+			//$this->form_validation->set_rules('password', 'Password', 'required');
+		}
+
+	}
+	
+	public function register_proc()
+	{
 			$pass=md5($this->input->post('password'));
 			$conpass=md5($this->input->post('confirm_password'));
 
@@ -131,12 +150,6 @@ class Home extends CI_Controller {
 				}
 				
 			}
-			//Form Validation Required
-			//$this->load->library('form_validation');
-			//$this->form_validation->set_rules('email', 'Email', 'required');
-			//$this->form_validation->set_rules('password', 'Password', 'required');
-		}
-
 	}
 	
 	public function schedules()
