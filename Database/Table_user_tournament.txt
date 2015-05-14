@@ -1,0 +1,39 @@
+CREATE TABLE "user_tournament" (
+
+"user_tournament_id" INTEGER NOT NULL PRIMARY KEY,
+"user_id" INTEGER NOT NULL,
+"tournament_id" INTEGER NOT NULL,
+"user_team_name" VARCHAR2(50) NOT NULL
+)
+NOCOMPRESS
+;
+
+ALTER TABLE "user_tournament"
+ADD CONSTRAINT "user_id"
+FOREIGN KEY ("user_id")
+REFERENCES "userInfo"("user_id");
+
+
+ALTER TABLE "user_tournament"
+ADD CONSTRAINT "tournament_id"
+FOREIGN KEY ("tournament_id")
+REFERENCES "tournament"("tournament_id");
+
+
+CREATE SEQUENCE user_tournament_id_counter
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;
+
+
+CREATE or replace TRIGGER user_tournament_auto_increment 
+	before INSERT on "user_tournament" 
+		for each ROW 
+			BEGIN
+				if :NEW."user_tournament_id" is null then 
+						:NEW."user_tournament_id" := user_tournament_id_counter.nextval; 
+				end if; 
+			end; 
+			/

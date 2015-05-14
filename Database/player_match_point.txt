@@ -1,0 +1,50 @@
+CREATE TABLE "player_match_point" (
+
+"player_match_point_id" INTEGER NOT NULL PRIMARY KEY,
+
+"player_id" INTEGER NOT NULL,
+"match_id" INTEGER NOT NULL,
+
+"runs_scored" INTEGER NULL,
+"balls_played" INTEGER NULL,
+"fours" INTEGER NULL,
+"sixes" INTEGER NULL,
+"wickets_taken" INTEGER NULL,
+"balls_bowled" INTEGER NULL,
+"runs_conceded" INTEGER NULL,
+"maiden_overs" INTEGER NULL,
+"catches" INTEGER NULL,
+"stumpings" INTEGER NULL,
+"run_outs" INTEGER NULL,
+"total_points" INTEGER NULL
+)
+NOCOMPRESS
+;
+
+ALTER TABLE "player_match_point"
+ADD CONSTRAINT "player_id_6"
+FOREIGN KEY ("player_id")
+REFERENCES "player"("player_id");
+
+
+ALTER TABLE "player_match_point"
+ADD CONSTRAINT "match_id_6"
+FOREIGN KEY ("match_id")
+REFERENCES "match"("match_id");
+
+
+CREATE SEQUENCE pl_mch_pt_id_counter
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;
+
+
+CREATE or replace TRIGGER player_match_pt_ai 
+	before INSERT on "player_match_point" 
+		for each ROW 
+			BEGIN
+				:NEW."player_match_point_id" := pl_mch_pt_id_counter.nextval;
+			end; 
+			/

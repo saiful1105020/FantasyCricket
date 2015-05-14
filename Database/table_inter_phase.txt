@@ -1,0 +1,31 @@
+CREATE TABLE "inter_phase" (
+
+"inter_phase_id" INTEGER NOT NULL PRIMARY KEY,
+"prev_phase_id" INTEGER NOT NULL,
+"next_phase_id" INTEGER NOT NULL,
+"free_transfers" INTEGER NOT NULL
+)
+NOCOMPRESS
+;
+
+ALTER TABLE "inter_phase"
+ADD CONSTRAINT "phase_id_1"
+FOREIGN KEY ("prev_phase_id")
+REFERENCES "phase"("phase_id");
+
+
+CREATE SEQUENCE inter_phase_id_counter
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;
+
+
+CREATE or replace TRIGGER inter_phase_auto_increment 
+	before INSERT on "inter_phase" 
+		for each ROW 
+			BEGIN
+				:NEW."inter_phase_id" := inter_phase_id_counter.nextval;
+			end; 
+			/
