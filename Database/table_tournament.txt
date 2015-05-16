@@ -1,0 +1,33 @@
+1. Table: Tournament
+
+CREATE::
+
+CREATE TABLE "tournament" (
+"tournament_id" INTEGER NOT NULL PRIMARY KEY,
+"name" VARCHAR2(50) NOT NULL ,
+"year" INTEGER NOT NULL
+)
+NOCOMPRESS
+;
+
+
+SEQUENCES::
+
+CREATE SEQUENCE tournament_counter
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;
+
+TRIGGERS::
+
+CREATE or replace TRIGGER tournament_auto_increment 
+	before INSERT on "tournament" 
+		for each ROW 
+			BEGIN
+				if :NEW."tournament_id" is null then 
+						:NEW."tournament_id" := tournament_counter.nextval; 
+				end if; 
+			end; 
+			/

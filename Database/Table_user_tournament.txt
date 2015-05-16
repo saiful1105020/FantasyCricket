@@ -1,0 +1,37 @@
+CREATE TABLE "user_inter_phase_transfer" (
+
+"user_inter_phase_id" INTEGER NOT NULL PRIMARY KEY,
+"user_id" INTEGER NOT NULL,
+"inter_phase_id" INTEGER NOT NULL,
+"transfers_made" INTEGER NULL
+)
+NOCOMPRESS
+;
+
+ALTER TABLE "user_inter_phase_transfer"
+ADD CONSTRAINT "user_id_7"
+FOREIGN KEY ("user_id")
+REFERENCES "userInfo"("user_id");
+
+
+ALTER TABLE "user_inter_phase_transfer"
+ADD CONSTRAINT "inter_phase_id_7"
+FOREIGN KEY ("inter_phase_id")
+REFERENCES "inter_phase"("inter_phase_id");
+
+
+CREATE SEQUENCE user_inter_phase_id_counter
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;
+
+
+CREATE or replace TRIGGER user_inter_phase_ai 
+	before INSERT on "user_inter_phase_transfer" 
+		for each ROW 
+			BEGIN
+					:NEW."user_inter_phase_id" := user_inter_phase_id_counter.nextval; 
+			end; 
+			/

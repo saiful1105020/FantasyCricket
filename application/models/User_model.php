@@ -28,6 +28,15 @@ class User_model extends CI_Model
 	{
 		$query = $this->db->insert('userInfo',$data);
 	}
+	
+	/**
+	*	Add an admin
+	*	Predefined
+	public function register_admin($data)
+	{
+		$query = $this->db->insert('admin',$data);
+	}
+	*/
 }
 
 ?>

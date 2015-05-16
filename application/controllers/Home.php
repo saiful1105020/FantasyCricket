@@ -42,8 +42,10 @@ class Home extends CI_Controller {
 			//Comment The 'echo's 
 			//Redirect To Homepage
 			
-			echo 'Already Logged In. </br>';
-			echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
+			//echo 'Already Logged In. </br>';
+			//echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
+			
+			redirect('/user', 'refresh');
 		}
 		else
 		{
@@ -74,10 +76,10 @@ class Home extends CI_Controller {
 			$_SESSION["user_name"]=$loginInfo['user_name'];
 			
 			
-            echo 'Success </br>';
-			echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
+            //echo 'Success </br>';
+			//echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
 			//Load User Home Page
-			//redirect('/user/home', 'refresh');
+			redirect('/user', 'refresh');
 		}
 		else
 		{
@@ -113,6 +115,21 @@ class Home extends CI_Controller {
 
 	}
 	
+	/**
+	*	Add An Admin
+	*	Predefined
+	public function register_admin()
+	{
+		$data['admin_id'] ="Admin";
+		$data['password'] =md5("admin");
+		
+		$this->user_model->register_admin($data);
+		
+		echo "Admin Added";
+				
+	}
+	*/
+	
 	public function register_proc()
 	{
 			$pass=md5($this->input->post('password'));
@@ -132,7 +149,6 @@ class Home extends CI_Controller {
 			else
 			{
 				$data['user_id'] ='';
-				$data['user_team_name'] ='';
 
 				$data['user_name'] =trim($this->input->post('user_name'));
 				$data['email'] =trim($this->input->post('email'));
@@ -203,15 +219,6 @@ class Home extends CI_Controller {
 	public function scoring()
 	{
 		echo "scorings Test";
-	}
-	
-	public function logout()
-	{
-		//Stop Session
-		$this->session->sess_destroy();
-		
-		//Redirect To Homepage
-		redirect('/home', 'refresh');
 	}
 	
 }

@@ -1,0 +1,18 @@
+
+CREATE SEQUENCE player_id_counter
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  START WITH 1
+  INCREMENT BY 1
+  CACHE 20;
+
+
+CREATE or replace TRIGGER player_auto_increment 
+	before INSERT on "player" 
+		for each ROW 
+			BEGIN
+				if :NEW."player_id" is null then 
+						:NEW."player_id" := player_id_counter.nextval; 
+				end if; 
+			end; 
+			/

@@ -1,0 +1,101 @@
+
+
+
+
+
+
+
+
+
+
+
+1. player table
+
+CREATE TABLE "player" (
+"player_id" INTEGER NOT NULL PRIMARY KEY,
+"price" FLOAT NOT NULL ,
+"player_cat" VARCHAR2(20) NOT NULL ,
+"name" VARCHAR2(50) NOT NULL ,
+"team_id" INTEGER NOT NULL
+)
+NOCOMPRESS
+;
+
+ALTER TABLE "player"
+ADD CONSTRAINT "team_id"
+FOREIGN KEY ("team_id")
+REFERENCES "team"("team_id");
+
+2. match table
+
+CREATE TABLE "match" (
+"match_id" INTEGER NOT NULL PRIMARY KEY,
+"start_time" timestamp NOT NULL ,
+"team1_id" INTEGER NOT NULL ,
+"team2_id" INTEGER NOT NULL ,
+"motm_id" INTEGER NOT NULL 
+)
+NOCOMPRESS
+;
+
+ALTER TABLE "match"
+ADD CONSTRAINT "team1_id"
+FOREIGN KEY ("team1_id")
+REFERENCES "team"("team_id");
+
+
+ALTER TABLE "match"
+ADD CONSTRAINT "team2_id"
+FOREIGN KEY ("team2_id")
+REFERENCES "team"("team_id");
+
+
+ALTER TABLE "match"
+ADD CONSTRAINT "motm_id"
+FOREIGN KEY ("motm_id")
+REFERENCES "player"("player_id");
+
+3. Table : tournament(tournament_id , tournament_name, year)
+
+
+CREATE TABLE "tournament" (
+"tournament_id" INTEGER NOT NULL PRIMARY KEY,
+"tournament_name" VARCHAR2(255) NOT NULL ,
+"year" INTEGER NOT NULL 
+)
+NOCOMPRESS
+;
+
+4. Table: user_match_team(user_match_team_id,player1_id, player2_id, player3_id, player4_id, player5_id, player6_id, player7_id, player8_id, player9_id, player10_id, player11_id, captain_id, total_point)
+
+
+CREATE TABLE "user_match_team" (
+
+"user_match_team_id" INTEGER NOT NULL PRIMARY KEY,
+
+"user_id" INTEGER NOT NULL ,
+"match_id" INTEGER NOT NULL ,
+
+"captain_id" INTEGER NOT NULL ,
+
+"total_point"  INTEGER NOT NULL
+)
+NOCOMPRESS
+;
+
+ALTER TABLE "match"
+ADD CONSTRAINT "team1_id"
+FOREIGN KEY ("team1_id")
+REFERENCES "team"("team_id");
+
+
+ALTER TABLE "match"
+ADD CONSTRAINT "team2_id"
+FOREIGN KEY ("team2_id")
+REFERENCES "team"("team_id");
+
+
+ALTER TABLE "match"
+ADD CONSTRAINT "motm_id"
+FOREIGN KEY ("motm_id")
+REFERENCES "player"("player_id");
