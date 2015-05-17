@@ -100,8 +100,9 @@ class Home extends CI_Controller {
 		{
 			//Comment The 'echo's 
 			//Redirect To Homepage
-			echo 'Already Logged In. </br>';
-			echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
+			//echo 'Already Logged In. </br>';
+			//echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
+			redirect('/user', 'refresh');
 		}
 		else
 		{

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Cricket Admin</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">  
+    <link type="text/css" rel="stylesheet" href="admin_home.css"/>
+  </head> 
+
+  <body>
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Fantasy Cricket</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">HOME<span class="sr-only">(current)</span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tournament <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li ><a href="#">View Existing Tournaments </a></li>
+                <li><a href="#">Create A Tournament</a></li>
+                <li><a href="#">Select Active Tournament </a></li>
+                <li><a href="#">Update Tournament Phases </a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Phases <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Create Tournament Phases </a></li>
+                <li><a href="#">Update Tournament Phases </a></li>
+                <li><a href="#">Update Inter-phase </a></li>
+              </ul>
+            </li>
+             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Team <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Add A Team </a></li>
+                <li><a href="#">Add A Player </a></li>
+                <li><a href="#">Update Team Sheet</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Match <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Create A Match </a></li>
+                <li><a href="#">Update Match Info </a></li>
+                <li><a href="#">Update Match Statistics </a></li>
+              </ul>
+            </li>
+            <li><a href="#">Schedules</a></li>
+            <li><a href="#">Results</a></li>
+            
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div style="height:140px">
+      <div class="col-xs-3"></div>
+      <div class="col-xs-3">
+        <h1><span class="label label-danger">Current Tournament </span></h1>
+      </div>
+      <div class="col-xs-3">
+        <h1><span class="label label-success">World Cup 2015 </span></h1>
+      </div>
+      <div class="col-xs-3"></div>
+    </div>
+
+    <!--- You have to edit from here  -->
+    <hr>
+    <div class="boy" style="height:60px"> 
+      <div class="col-xs-3" style="text-align:center !important;float:left;">
+        <h2><span class="label label-default" >Match 1 </span></h2>
+      </div>
+      <div class="col-xs-3" style="text-align:center !important;float:left;">
+        <h2><span class="label label-primary" >Bangladesh </span><span class="label label-warning">Vs </span><span class="label label-primary">Pakistan </span></h2>
+      </div>
+      
+      <div class="col-xs-3" style="text-align:center !important; float:left; vertical-align:top; padding:left">
+        <br><button type="button" class="btn btn-info">Start </button><br>
+      </div>
+      <div class="col-xs-3" >
+          <br><button type="button" class="btn btn-warning">End </button><br>
+      </div>
+    </div>
+    <hr>
+    <hr>
+    <div style="height:60px" class="body"> 
+      <div class="col-xs-3" style="text-align:center !important;float:left;">
+        <h2><span class="label label-default" >Match 2 </span></h2>
+      </div>
+      <div class="col-xs-3" style="text-align:center !important;float:left;">
+        <h2><span class="label label-primary">India </span><span class="label label-warning">Vs </span><span class="label label-primary">South Africa </span></h2>
+      </div>
+      
+      <div class="col-xs-3" style="text-align:center !important; float:left; vertical-align:top; padding:left">
+        <br><button type="button" class="btn btn-info" >Start </button><br>
+      </div>
+      <div class="col-xs-3" >
+          <br><button type="button" class="btn btn-warning">End </button><br>
+      </div>
+    </div>
+    <hr style="color:red">
+    <hr>
+    <div style="height:60px"> 
+      <div class="col-xs-3" style="text-align:center !important;float:left;">
+        <h2><span class="label label-default" >Phase </span></h2>
+      </div>
+      <div class="col-xs-3" style="text-align:center !important;float:left;">
+        <h2><span class="label label-primary">Phase 1 </span></h2>
+      </div>
+      
+      <div class="col-xs-3" style="text-align:center !important; float:left; vertical-align:top; padding:left">
+        <br><button type="button" class="btn btn-info">Start </button><br>
+      </div>
+      <div class="col-xs-3" >
+          <br><button type="button" class="btn btn-warning">End </button><br>
+      </div>
+    </div>
+    <hr>
+    <script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+  </body>
+
+</html>

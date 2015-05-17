@@ -39,7 +39,7 @@ class User extends CI_Controller {
 	{
 		if(isset($_SESSION["user_id"]))
 		{
-			echo "Show User Home Page";
+			$this->load->view('user_home');
 		}
 		else
 		{

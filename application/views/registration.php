@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="InputDate">Enter Year</label>
+                    <label for="InputDate">Enter Your Birthday</label>
                     <div class="input-group">
                         <input type="date" class="form-control" id="InputDate" name="birthday" placeholder="Enter Birthdate" >
                         <span class="input-group-addon"></span>

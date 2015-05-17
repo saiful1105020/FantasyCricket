@@ -42,11 +42,8 @@ class Home extends CI_Controller {
 	{
 		if(isset($_SESSION["admin_id"]))
 		{
-			//Comment The 'echo's 
-			//Redirect To Homepage
-			
-			echo 'Already Logged In. </br>';
-			echo 'Welcome :D </br>'.$_SESSION['admin_id'].'</br>';
+			//Redirect to Admin Home Page
+			redirect('/admin', 'refresh');
 		}
 		else
 		{
@@ -55,7 +52,6 @@ class Home extends CI_Controller {
 			
 			$data = array(
                'login_error' => false
-			   //'registration_success' => false
 			);
 			
 			$this->load->view('home',$data);
@@ -74,19 +70,14 @@ class Home extends CI_Controller {
 			$loginInfo=$query->row_array();
 			
 			$_SESSION["admin_id"]=$loginInfo['admin_id'];		// Change user_id to admin_id
-			//$_SESSION["admin_name"]=$loginInfo['user_name'];	// Change user_name to admin_name
 			
-			
-            //echo 'Success </br>';
-			//echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
-			//Load User Home Page
+			//Load User Admin Page
 			redirect('/admin', 'refresh');
 		}
 		else
 		{
 			$data = array(
                'login_error' => true
-			   //'registration_success' => false
 			);
 			$this->load->view('templates/header');
 			
@@ -98,17 +89,32 @@ class Home extends CI_Controller {
 	
 	public function schedules()
 	{
-		echo "Schedule Test";
+		$query= $this->admin_model->get_fixture();		
+		
+		if($query->num_rows()==0)
+		{
+			echo "No Fixture Available for this tournament";	//Load No Fixture View
+		}
+		
+		$data= $query->row_array();
+		
+		print_r($data);				//Load View Fixture  with $data
 	}
 	
 	public function results()
 	{
-		echo "Result Test";
-	}
-	
-	public function pointTable()
-	{
-		echo "pointTable Test";
+		//echo "Result Test";
+		
+		$query= $this->admin_model->get_result();		
+		
+		if($query->num_rows()==0)
+		{
+			echo "No Result Found for this tournament";	//Load No Fixture View
+		}
+		
+		$data= $query->row_array();
+		
+		print_r($data);				//Load View Fixture  with $data
 	}
 	
 	public function howToPlay()

@@ -30,7 +30,19 @@ class Admin extends CI_Controller {
           $this->load->helper('html');
 		  $this->load->library('form_validation');
 		  
-		  $this->load->model('admin_model');
+		if(isset($_SESSION["user_id"]))
+		{
+			echo "Please Log out from your user account. ";
+		}
+		else
+		{
+			if(!isset($_SESSION["admin_id"]))
+			{
+				redirect('/home', 'refresh');
+			}
+		}
+		  
+		$this->load->model('admin_model');
      }
 	 
 	public function index()
@@ -90,34 +102,74 @@ class Admin extends CI_Controller {
 	/**
 	*Update Tournament Table
 	*/
-	
-	public function addTournament()
+	public function viewTournament()
 	{
+		$query=$this->admin_model->view_tournament();
+		if($query->num_rows()==0)
+		{
+			//Load Message
+			echo 'No Tournament Exist';
+		}
+		$data=$query->row_array();
+		//Load View
+	}
 	
+	public function createTournament()
+	{
+		//Load Create Tournament View
+	}
+	
+	public function createTournament_proc()
+	{
+		$data['tournament_id']='';
+		$data['tournament_name']=trim($this->input->post('tournament_name'));
+		$data['start_date']=$this->input->post('start_date');
+		$data['end_date']=$this->input->post('end_date');
+		$data['is_active']=$this->input->post('is_active');
+		$data['icon']=$this->input->post('icon');				//Get the link of the image icon
+		$data['is_complete']=$this->input->post('is_complete');
+		
+		$success=$this->admin_model->create_tournament($data);
+		
+		if($success) echo 'Success';	//Reload createTournament view with success message
+		else echo 'Failed';				//Reload createTournament view with failure message
 	}
 	
 	public function deleteTournament()
 	{
-	
+		//Load View
 	}
-	public function changeTournamentName()
-	{
 	
+	public function deleteTournament_proc()
+	{
+		//Delete Entries From all 4 tournament related tables.
+		//Using a trigger can be cute
+	}
+	
+	public function editTournamentInfo()
+	{
+		//Load View
+	}
+	
+	public function editTournamentInfo_proc()
+	{
+		//Update Tournament Table
+	}
+	
+	public function addTournamentTeam()
+	{
+		
 	}
 	
 	/**
 	*Update Team Table
 	*/
-	public function addTeam()
+	public function createTeam()
 	{
 	
 	}
 	
-	public function deleteTeam()
-	{
-	
-	}
-	public function changeTeamName()
+	public function changeTeamInfo()
 	{
 	
 	}
@@ -125,17 +177,13 @@ class Admin extends CI_Controller {
 	/**
 	*Update Player Table
 	*/
+	
 	public function addPlayer()
 	{
 	
 	}
 	
-	public function deletePlayer()
-	{
-	
-	}
-	
-	public function changePlayerName()
+	public function changePlayerInfo()
 	{
 	
 	}
