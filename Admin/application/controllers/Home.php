@@ -2,25 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
-	 
-	 //private $loginFlag;		//$loginFlag = false show "Login Failed" in the view
-	 
 	 
 	 public function __construct()
      {
@@ -48,13 +29,13 @@ class Home extends CI_Controller {
 		else
 		{
 			
-			$this->load->view('templates/header');
+			//$this->load->view('templates/header');
 			
 			$data = array(
                'login_error' => false
 			);
 			
-			$this->load->view('home',$data);
+			$this->load->view('admin-login',$data);
 		}
 	}
 	
@@ -79,57 +60,9 @@ class Home extends CI_Controller {
 			$data = array(
                'login_error' => true
 			);
-			$this->load->view('templates/header');
-			
-			$this->load->view('home',$data);
+			$this->load->view('admin-login',$data);
 			
 		}
 		
 	}
-	
-	public function schedules()
-	{
-		$query= $this->admin_model->get_fixture();		
-		
-		if($query->num_rows()==0)
-		{
-			echo "No Fixture Available for this tournament";	//Load No Fixture View
-		}
-		
-		$data= $query->row_array();
-		
-		print_r($data);				//Load View Fixture  with $data
-	}
-	
-	public function results()
-	{
-		//echo "Result Test";
-		
-		$query= $this->admin_model->get_result();		
-		
-		if($query->num_rows()==0)
-		{
-			echo "No Result Found for this tournament";	//Load No Fixture View
-		}
-		
-		$data= $query->row_array();
-		
-		print_r($data);				//Load View Fixture  with $data
-	}
-	
-	public function howToPlay()
-	{
-		echo "howToPlay Test";
-	}
-	
-	public function rules()
-	{
-		echo "Rules Test";
-	}
-	
-	public function scoring()
-	{
-		echo "scorings Test";
-	}
-	
 }

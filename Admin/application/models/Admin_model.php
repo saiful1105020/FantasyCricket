@@ -13,6 +13,11 @@ class Admin_model extends CI_Model
 		return $query;
 	}
 	
+	/**
+	*	CREATE A PROCEDURE AND COMMENT OUT THE FUNCTION
+	*	DON'T FORGET TO REPLACE THE CODES ASSOCIATED WITH IT
+	*/
+	
 	public function get_active_tournament()
 	{
 		$sql = 'SELECT "tournament_id" FROM "tournament" where "is_active"=1';				
@@ -67,18 +72,6 @@ class Admin_model extends CI_Model
 		$query=$this->db->query($sql,array($tournament_id)); 
 		
 		return $query;
-	}
-	
-	public function view_tournament()
-	{
-		$sql = 'SELECT * FROM "tournament"';		
-		return $query=$this->db->query($sql);
-	}
-	
-	public function create_tournament($data)
-	{
-		$sql = 'INSERT INTO "tournament" VALUES(?,?,?,?,?,?,?)';		
-		return $query=$this->db->query($sql,$data); 
 	}
 }
 

@@ -83,28 +83,25 @@
     </div>
   </div> <!-- Description End -->
 <div class="row" >
+	<div class="col-md-4">
+		<a href="#" class="btn btn-primary btn-lg active" role="button" style="float:right">Select Captain </a>
+	</div>
+	
   <div class="col-md-8" style="float:right">
       <div class="dropdown" >
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-        <strong>Select Captain </strong>
-        <span class="caret"></span>
-      </button>
 	  
-      <ul class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="dLabel">
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Sakib Al Hasan</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Mashrafee Mortaza</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Mushfiqur Rahim</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Tamim Iqbal</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Sakib Al Hasan</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Mashrafee Mortaza</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Mushfiqur Rahim</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Tamim Iqbal</a></li>
-      </ul>
+      <select name="captain" id="captain_select" role="menu" aria-labelledby="dLabel">
+        <option value='A'>A</option>
+		<option value='A'>B</option>
+		<option value='A'>C</option>
+		<option value='A'>D</option>
+		<option value='A'>E</option>
+      </select>
     </div>
   </div>
-  <div class="col-md-4">
-   <a href="#" class="btn btn-primary btn-lg active" role="button" style="float:right">Change Team </a>
-</div>
+	<div class="col-md-4">
+		<a href="#" class="btn btn-primary btn-lg active" role="button" style="float:right">Change Team </a>
+	</div>
 </div>
 <div class="col-xs-12" class="container-fluid">
    

@@ -32,7 +32,7 @@ class Admin extends CI_Controller {
 		  
 		if(isset($_SESSION["user_id"]))
 		{
-			echo "Please Log out from your user account. ";
+			die("Please Log out from your user account. ");
 		}
 		else
 		{
@@ -43,32 +43,99 @@ class Admin extends CI_Controller {
 		}
 		  
 		$this->load->model('admin_model');
+		$this->load->model('tournament_model');
+		$this->load->model('team_model');
+		
+		//$data['active_page']='home';
+		/**
+		*	OTHER OPTIONS:
+		*	->tournament
+		*	->phase
+		*	->match
+		*	->schedule
+		*	->result
+		*/
+		
+		$this->load->view('templates/header');
      }
 	 
+	/**
+	*	ADMIN HOME PAGE
+	*/
 	public function index()
 	{
-		if(isset($_SESSION["user_id"]))
+		/**	Get Current Tournament Name		
+		*	$data['tournament_name'];
+		*/
+		
+		$query= $this->tournament_model->get_active_tournament();
+		
+		if($query->num_rows()==0)
 		{
-			echo "Please Log out from your user account. ";
+			die('No Active Tournament');
 		}
 		else
 		{
-			if(isset($_SESSION["admin_id"]))
-			{
-				echo "Show Admin Home Page";
-				//Load Homepage View
-			}
-			else	//Admin is not logged in as a user && Admin session is not set
-			{
-				$this->load->view('templates/header');
-				
-				$data = array(
-				   'login_error' => false
-				);
-				
-				$this->load->view('home',$data);
-			}
+			$result=$query->row_array();
+			$data['tournament_name']=$result['tournament_name'];	//Current Tournament Name
+			
+			$tournament_id=$result['tournament_id'];				//Current Tournament ID
 		}
+		
+		/**
+		*	Get Upcoming Match Which has not been initiated by admin	
+		*	$data['home_team'], $data['away_team']
+		*	After initiation, all tables that requires a match instance are created
+		*/
+		
+		$query= $this->tournament_model->get_upcoming_match($tournament_id);
+		
+		if($query->num_rows()==0)
+		{
+			die('No Upcoming Match');
+		}
+		else
+		{
+			$result=$query->row_array();
+			$data['home_team']=$this->team_model->get_team_name($result['team1_id']);				//Home Team ID -> Get Team Name Using Team Model
+			$data['away_team']=$this->team_model->get_team_name($result['team2_id']);				//Away Team ID -> Get Team Name Using Team Model
+		}
+		
+		/**
+		*	Get Recent 2 Phases Which Are Either Not Started Or Not Finished
+		*	$data['phases'] = array($phase1,$phase2);
+		*/
+		
+		$query= $this->tournament_model->get_upcoming_phase($tournament_id);
+		
+		if($query->num_rows()==0)
+		{
+			die('No Upcoming Phase');
+		}
+		else
+		{
+			$result=$query->row_array();
+			$data['upcoming_phase']=$result['phase_name'];											
+		}
+		
+		/**
+		*
+		*/
+		
+		$query= $this->tournament_model->get_last_completed_phase($tournament_id);
+		
+		if($query->num_rows()==0)
+		{
+			die('No Phase To Finalize');
+		}
+		else
+		{
+			$result=$query->row_array();
+			$data['completed_phase']=$result['phase_name'];											
+		}
+		
+		$this->load->view('admin_home',$data);
+		
 	}
 	
 	public function logout()
@@ -80,147 +147,40 @@ class Admin extends CI_Controller {
 		redirect('/home', 'refresh');
 	}
 	
-	/**
-	*Update Match Table
-	*/
-	public function addMatch()
+	public function schedules()
 	{
+		$query= $this->admin_model->get_fixture();		
 		
-	}
-	
-	public function changeMatchTime()
-	{
-		
-	}
-	
-	public function deleteMatch()
-	{
-	
-	}
-	
-	
-	/**
-	*Update Tournament Table
-	*/
-	public function viewTournament()
-	{
-		$query=$this->admin_model->view_tournament();
 		if($query->num_rows()==0)
 		{
-			//Load Message
-			echo 'No Tournament Exist';
+			echo "No Fixture Available for this tournament";	//Load No Fixture View
 		}
-		$data=$query->row_array();
-		//Load View
-	}
-	
-	public function createTournament()
-	{
-		//Load Create Tournament View
-	}
-	
-	public function createTournament_proc()
-	{
-		$data['tournament_id']='';
-		$data['tournament_name']=trim($this->input->post('tournament_name'));
-		$data['start_date']=$this->input->post('start_date');
-		$data['end_date']=$this->input->post('end_date');
-		$data['is_active']=$this->input->post('is_active');
-		$data['icon']=$this->input->post('icon');				//Get the link of the image icon
-		$data['is_complete']=$this->input->post('is_complete');
 		
-		$success=$this->admin_model->create_tournament($data);
+		//echo $query->num_rows().'<br/>';
+		$data=$query->result_array();
 		
-		if($success) echo 'Success';	//Reload createTournament view with success message
-		else echo 'Failed';				//Reload createTournament view with failure message
+		foreach($data as $row)
+		{
+			print_r($row);				//Load View Fixture  with $data
+			echo '<br/>';
+		}
 	}
 	
-	public function deleteTournament()
+	public function results()
 	{
-		//Load View
-	}
-	
-	public function deleteTournament_proc()
-	{
-		//Delete Entries From all 4 tournament related tables.
-		//Using a trigger can be cute
-	}
-	
-	public function editTournamentInfo()
-	{
-		//Load View
-	}
-	
-	public function editTournamentInfo_proc()
-	{
-		//Update Tournament Table
-	}
-	
-	public function addTournamentTeam()
-	{
+		//echo "Result Test";
 		
-	}
-	
-	/**
-	*Update Team Table
-	*/
-	public function createTeam()
-	{
-	
-	}
-	
-	public function changeTeamInfo()
-	{
-	
-	}
-	
-	/**
-	*Update Player Table
-	*/
-	
-	public function addPlayer()
-	{
-	
-	}
-	
-	public function changePlayerInfo()
-	{
-	
-	}
-	
-	/**
-	* Update Phase Table
-	*/
-	public function addPhase()
-	{
-	
-	}
-	
-	public function deletePhase()
-	{
-	
-	}
-	
-	public function changePhaseInterval()
-	{
-	
-	}
-	
-	/**
-	* Update Inter-Phase Table
-	*/
-	public function addInterPhase()
-	{
-	
-	}
-	
-	public function deleteInterPhase()
-	{
-	
-	}
-	
-	public function changeInterPhaseInterval()
-	{
-	
+		$query= $this->admin_model->get_result();		
+		
+		if($query->num_rows()==0)
+		{
+			echo "No Result Found for this tournament";	//Load No Fixture View
+		}
+		
+		foreach ($data=$query->result_array() as $row)
+		{
+			print_r($row);				//Load View Fixture  with $data
+			echo '<br/>';
+		}
 	}
 }
