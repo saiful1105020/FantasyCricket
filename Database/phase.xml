@@ -1,0 +1,63 @@
+<?xml version="1.0" standalone="yes"?>
+<RECORDS>
+<RECORD>
+<phase_id>1</phase_id>
+<phase_name>Round Of 32</phase_name>
+<start_time>2015/5/20 10:41:04:000000</start_time>
+<finish_time>2015/5/25 11:41:11:000000</finish_time>
+<free_transfers>10</free_transfers>
+<tournament_id>1</tournament_id>
+<is_started>0</is_started>
+<is_complete>0</is_complete>
+</RECORD>
+<RECORD>
+<phase_id>2</phase_id>
+<phase_name>Group Stage</phase_name>
+<start_time>2015/5/5 11:41:41:000000</start_time>
+<finish_time>2015/5/17 11:41:47:000000</finish_time>
+<free_transfers>40</free_transfers>
+<tournament_id>1</tournament_id>
+<is_started>1</is_started>
+<is_complete>0</is_complete>
+</RECORD>
+<RECORD>
+<phase_id>3</phase_id>
+<phase_name>Round Of 16</phase_name>
+<start_time>2015/5/27 11:42:14:000000</start_time>
+<finish_time>2015/5/29 11:42:21:000000</finish_time>
+<free_transfers>6</free_transfers>
+<tournament_id>1</tournament_id>
+<is_started>0</is_started>
+<is_complete>0</is_complete>
+</RECORD>
+<RECORD>
+<phase_id>5</phase_id>
+<phase_name>Round Of 8</phase_name>
+<start_time>2015/6/3 11:42:47:000000</start_time>
+<finish_time>2015/6/8 11:42:58:000000</finish_time>
+<free_transfers>6</free_transfers>
+<tournament_id>1</tournament_id>
+<is_started>0</is_started>
+<is_complete>0</is_complete>
+</RECORD>
+<RECORD>
+<phase_id>6</phase_id>
+<phase_name>Semi Final</phase_name>
+<start_time>2015/6/25 11:43:31:000000</start_time>
+<finish_time>2015/5/27 11:43:47:000000</finish_time>
+<free_transfers>6</free_transfers>
+<tournament_id>1</tournament_id>
+<is_started>0</is_started>
+<is_complete>0</is_complete>
+</RECORD>
+<RECORD>
+<phase_id>7</phase_id>
+<phase_name>Final</phase_name>
+<start_time>2015/6/29 11:44:02:000000</start_time>
+<finish_time>2015/6/27 12:44:08:000000</finish_time>
+<free_transfers>6</free_transfers>
+<tournament_id>1</tournament_id>
+<is_started>0</is_started>
+<is_complete>0</is_complete>
+</RECORD>
+</RECORDS>

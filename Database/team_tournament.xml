@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="yes"?>
+<RECORDS>
+<RECORD>
+<team_tournament_id>1</team_tournament_id>
+<team_id>1</team_id>
+<tournament_id>1</tournament_id>
+</RECORD>
+<RECORD>
+<team_tournament_id>2</team_tournament_id>
+<team_id>2</team_id>
+<tournament_id>1</tournament_id>
+</RECORD>
+<RECORD>
+<team_tournament_id>3</team_tournament_id>
+<team_id>3</team_id>
+<tournament_id>1</tournament_id>
+</RECORD>
+</RECORDS>

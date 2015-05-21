@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="yes"?>
+<RECORDS>
+<RECORD>
+<team_id>1</team_id>
+<team_name>Test Team</team_name>
+<jersy_image></jersy_image>
+</RECORD>
+<RECORD>
+<team_id>2</team_id>
+<team_name>Test Team 2</team_name>
+<jersy_image></jersy_image>
+</RECORD>
+<RECORD>
+<team_id>3</team_id>
+<team_name>Test Team 3</team_name>
+<jersy_image></jersy_image>
+</RECORD>
+</RECORDS>
