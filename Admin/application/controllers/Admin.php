@@ -92,7 +92,8 @@ class Admin extends CI_Controller {
 		
 		if($query->num_rows()==0)
 		{
-			die('No Upcoming Match');
+			$data['home_team']='';				//Home Team ID -> Get Team Name Using Team Model
+			$data['away_team']='';				//Away Team ID -> Get Team Name Using Team Model
 		}
 		else
 		{
@@ -110,7 +111,7 @@ class Admin extends CI_Controller {
 		
 		if($query->num_rows()==0)
 		{
-			die('No Upcoming Phase');
+			$data['upcoming_phase']='';
 		}
 		else
 		{
@@ -126,7 +127,7 @@ class Admin extends CI_Controller {
 		
 		if($query->num_rows()==0)
 		{
-			die('No Phase To Finalize');
+			$data['completed_phase']='';
 		}
 		else
 		{

@@ -23,6 +23,29 @@ class Tournament_model extends CI_Model
 		return $query;
 	}
 	
+	public function update_active_tournament($tournament_id)
+	{
+		$sql='UPDATE "tournament"
+				SET "is_active" = 0
+				where "tournament_id" = (Select "tournament_id" FROM "tournament" where "is_active"=1)';
+		$query=$this->db->query($sql);
+
+		$sql='UPDATE "tournament"
+				SET "is_active" = 1
+				where "tournament_id" = ?';
+		$query=$this->db->query($sql, $tournament_id);
+
+	}
+	
+	public function get_tournament_name($tournament_id)
+	{
+		$sql = 'SELECT "tournament_name" FROM "tournament" where "tournament_id"=?';				
+		$query=$this->db->query($sql,$tournament_id); 
+		$result=$query->row_array();
+		
+		return $result['tournament_name'];
+	}
+	
 	public function get_upcoming_match($tournament_id)
 	{
 		$sql = 'SELECT * FROM "match" 
@@ -82,8 +105,15 @@ class Tournament_model extends CI_Model
 	
 	public function create_tournament($data)
 	{
-		$sql = 'INSERT INTO "tournament" VALUES(?,?,?,?,?,?,?)';		
+		$sql = 'INSERT INTO "tournament" VALUES(?,?,TO_DATE(?,\'YYYY-MM-DD\'),TO_DATE(?,\'YYYY-MM-DD\'),?,?,?)';		
 		return $query=$this->db->query($sql,$data); 
+	}
+	
+	public function get_tournament_teams($tournament_id)
+	{
+		$sql = 	'SELECT "team_id" from "team_tournament" where "tournament_id"=?';			
+		$query=$this->db->query($sql,$tournament_id); 
+		return $query;
 	}
 	
 	public function get_active_tournament_teams()
@@ -159,5 +189,57 @@ class Tournament_model extends CI_Model
 			$query=$this->db->query($sql,array($player_id,$cur_tournament_id));
 		}
 	}
-
+	
+	//add_tournament_team($tid);
+	
+	public function team_exists($team_id)
+	{
+		$result = $this->get_active_tournament()->row_array();
+		$cur_tournament_id = $result['tournament_id'];
+		
+		$sql = 	'SELECT "COUNT"(*) FROM "team_tournament" where "team_id" = ? AND "tournament_id" = ?';
+				
+		$query=$this->db->query($sql,array($team_id,$cur_tournament_id)); 
+		
+		$rs = $query->row_array();
+		
+		if($rs['"COUNT"(*)']==0) return 0;
+		else return 1;
+	}
+	
+	public function team_exists_tournament($tournament_id,$team_id)
+	{
+		
+		$sql = 	'SELECT "COUNT"(*) FROM "team_tournament" where "team_id" = ? AND "tournament_id" = ?';
+				
+		$query=$this->db->query($sql,array($team_id,$tournament_id)); 
+		
+		$rs = $query->row_array();
+		
+		if($rs['"COUNT"(*)']==0) return 0;
+		else return 1;
+	}
+	
+	public function add_tournament_team($tournament_id,$team_id)
+	{
+		if($this->team_exists_tournament($tournament_id,$team_id)==0)
+		{
+			$data=array(
+				'team_tournament_id'=>'',
+				'team_id'=> $team_id,
+				'tournament_id'=> $tournament_id
+			);
+			$sql = 	'INSERT INTO "team_tournament" VALUES (?,?,?)';		
+			$query=$this->db->query($sql,$data);
+		}		
+	}
+	
+	public function delete_tournament_team($tournament_id,$team_id)
+	{
+		if($this->team_exists_tournament($tournament_id,$team_id)==1)
+		{
+			$sql = 	'DELETE FROM "team_tournament" WHERE "team_id"=? AND "tournament_id"=?';		
+			$query=$this->db->query($sql,array($team_id,$tournament_id));
+		}
+	}
 }

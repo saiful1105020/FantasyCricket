@@ -40,11 +40,14 @@
 		
 		else if($step==1)
 		{
-			echo'<tr height="60"></tr>
+			echo'<table>
+					<tr height="60"></tr>
 					<tr>
-					<td width="400"></td>
-					<td><strong>Team Name: </strong><h4 style="color:#0000CC">'.$team_name.'</h4></td>
-				</tr>
+						<td width="565"></td>
+						<td width="150"><h4><strong>Team Name: </strong></h4></td>
+						<td><h4 style="color:#0000CC">'.$team_name.'</h4></td>
+					</tr>
+				</table>
 				<hr><hr>
 				
 				<div>

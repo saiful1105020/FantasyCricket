@@ -15,7 +15,7 @@
 
   </head> 
 
-  <body>
+  <body style="background-color: #778899">
 
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
@@ -37,7 +37,6 @@
             <li class="dropdown">
               <a href="<?php echo site_url('tournament'); ?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tournament <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li ><a href="<?php echo site_url('tournament/viewTournament'); ?>">View Existing Tournaments </a></li>
                 <li><a href="<?php echo site_url('tournament/createTournament'); ?>">Create A Tournament</a></li>
                 <li><a href="<?php echo site_url('tournament/activeTournament'); ?>">Select Active Tournament </a></li>
                 <li><a href="<?php echo site_url('tournament/updateTournamentTeam'); ?>">Update Tournament Teams </a></li>

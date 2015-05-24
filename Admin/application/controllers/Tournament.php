@@ -45,7 +45,7 @@ class Tournament extends CI_Controller {
 		$this->load->model('admin_model');
 		$this->load->model('tournament_model');
 		$this->load->model('team_model');
-		
+		$this->load->model('player_model');
 		//$data['active_page']='tournament';
 		
 		$this->load->view('templates/header');
@@ -64,6 +64,8 @@ class Tournament extends CI_Controller {
 	/**
 	*Update Tournament Table
 	*/
+	
+	/*
 	public function viewTournament()
 	{
 		$query=$this->tournament_model->view_tournament();
@@ -76,28 +78,35 @@ class Tournament extends CI_Controller {
 		print_r($data);
 		//Load View
 	}
+	*/
 	
 	public function createTournament()
 	{
-		echo 'Create Tournament Here';
+		
+		$query=$this->tournament_model->view_tournament();
+
+		$data['tournaments']=$query->result_array();
+
+		$this->load->view('createTournament',$data);
+		//echo 'Create Tournament Here';
 		//Load Create Tournament View
 	}
 	
 	public function createTournament_proc()
 	{
-		$data['tournament_id']='';
-		$data['tournament_name']=trim($this->input->post('tournament_name'));
-		$data['start_date']=$this->input->post('start_date');
-		$data['end_date']=$this->input->post('end_date');
-		$data['is_active']=$this->input->post('is_active');
-		$data['icon']=$this->input->post('icon');				//Get the link of the image icon
-		$data['is_complete']=$this->input->post('is_complete');
+		$t_data['tournament_id']='';
+		$t_data['tournament_name']=trim($this->input->post('tournament_name'));
+		$t_data['start_date']=$_POST['start_year'].'-'.$_POST['start_month'].'-'.$_POST['start_day'];
+		$t_data['end_date']=$_POST['end_year'].'-'.$_POST['end_month'].'-'.$_POST['end_day'];
+		$t_data['is_active']='';
+		$t_data['icon']='';				//Get the link of the image icon
+		$t_data['is_complete']='';
 		
-		$success=$this->admin_model->create_tournament($data);
+		$data['success']=$this->tournament_model->create_tournament($t_data);
 		
-		if($success) echo 'Success';	//Reload createTournament view with success message
-		else echo 'Failed';				//Reload createTournament view with failure message
+		$this->load->view('status_createTournament',$data);
 	}
+	
 	
 	public function deleteTournament()
 	{
@@ -132,16 +141,71 @@ class Tournament extends CI_Controller {
 	
 	public function updateTournamentTeam()
 	{
-		echo 'Update: Test';
+		$query=$this->tournament_model->get_all_tournaments();
+		$data['tournaments']=$query->result_array();
+		$data['step']=0;
+		$this->load->view('updateTournamentTeams',$data);
 	}
-	
-	public function addTournamentTeam_proc()
+
+	public function updateTournamentTeam_1()
 	{
+		$tournament_id = $_POST['tournament_id'];
+		$data['tournament_name']=$this->tournament_model->get_tournament_name($tournament_id);
+
+		$data['step']=1;
 		
+		
+		$query=$this->team_model->get_all_teams();
+
+		$data['teams']=$query->result_array();
+		
+		$userdata=array('tournament_id'=>$tournament_id,'teams'=>$data['teams']);
+		$this->session->set_userdata($userdata);
+		
+		$this->load->view('updateTournamentTeams',$data);
+	}
+
+	public function updateTournamentTeam_2()
+	{
+		$teams=$_SESSION['teams'];
+		$tournament_id = $_SESSION['tournament_id'];
+		
+		foreach ($teams as $tm)
+		{
+			$tid=$tm['team_id'];
+			
+			if(isset($_POST[$tid]))
+			{
+				$this->tournament_model->add_tournament_team($tournament_id,$tid);
+			}
+			else
+			{
+				$this->tournament_model->delete_tournament_team($tournament_id,$tid);
+			}
+		}
+		
+		unset($_SESSION['tournament_id'],$_SESSION['teams']);
+		
+		redirect('team/create_team_success','refresh');
 	}
 	
 	public function activeTournament()
 	{
-		echo 'Select Active Tournament Here';
+		$query=$this->tournament_model->view_tournament();
+
+		$data['tournaments']=$query->result_array();
+
+		$this->load->view('activeTournament',$data);
+		//echo 'Select Active Tournament Here';
+	}
+
+	public function activeTournament_proc()
+	{
+		
+		$t_id = $_POST['tournament'];
+		$this->tournament_model->update_active_tournament($t_id);
+
+
+		//echo 'Select Active Tournament Here';
 	}
 }

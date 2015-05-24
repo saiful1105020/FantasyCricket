@@ -48,7 +48,6 @@
     </div>
 	-->
 
-    <hr style="color:red">
     <hr>
     <div style="height:60px"> 
       <div class="col-xs-3" style="text-align:center !important;float:left;">
@@ -66,9 +65,7 @@
           <br><button type="button" class="btn btn-warning"> Finalize Points </button><br>
       </div>
     </div>
-    <hr>
-	
-	<hr style="color:red">
+
     <hr>
     <div style="height:60px"> 
       <div class="col-xs-3" style="text-align:center !important;float:left;">
