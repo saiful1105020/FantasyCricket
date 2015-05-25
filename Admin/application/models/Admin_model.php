@@ -43,7 +43,8 @@ class Admin_model extends CI_Model
 		return $query->row_array();
 		*/
 		
-		$sql = 'SELECT M."start_time" as Time,T1."team_name" as "Home Team",T2."team_name" as "Away Team" 
+		$sql = 'SELECT M."match_id" as "match_id",M."start_time" as "Time",M."team1_id" as "home_team_id",
+				T1."team_name" as "home_team_name",M."team2_id" as "away_team_id",T2."team_name" as "away_team_name" 
 				from "match" M, "team" T1, "team" T2 
 				WHERE T1."team_id"=M."team1_id" AND T2."team_id"=M."team2_id" AND M."tournament_id"=?
 				ORDER BY M."start_time"';

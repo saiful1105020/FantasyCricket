@@ -23,6 +23,17 @@ class Tournament_model extends CI_Model
 		return $query;
 	}
 	
+	public function get_active_tournament_name()
+	{
+		$sql = 'SELECT "tournament_name" FROM "tournament" where "is_active"=1';				
+		
+		$query=$this->db->query($sql); 
+		
+		$result=$query->row_array();
+		
+		return $result['tournament_name'];
+	}
+	
 	public function update_active_tournament($tournament_id)
 	{
 		$sql='UPDATE "tournament"
@@ -49,14 +60,14 @@ class Tournament_model extends CI_Model
 	public function get_upcoming_match($tournament_id)
 	{
 		$sql = 'SELECT * FROM "match" 
-				WHERE "tournament_id"=? AND "is_started"=0 AND ("start_time"-CURRENT_TIMESTAMP) = 
+				WHERE "tournament_id"='.$tournament_id.' AND "is_started"=0 AND ("start_time"-CURRENT_TIMESTAMP) = 
 				(	
 					SELECT MIN("start_time"-CURRENT_TIMESTAMP)
 					FROM "match" 
-					WHERE ("start_time" > CURRENT_TIMESTAMP)
+					WHERE ("start_time" > CURRENT_TIMESTAMP AND "tournament_id"='.$tournament_id.')
 				)';				
 		
-		$query=$this->db->query($sql,$tournament_id); 
+		$query=$this->db->query($sql); 
 		
 		//$result=$query->row_array();
 		
@@ -66,14 +77,14 @@ class Tournament_model extends CI_Model
 	public function get_upcoming_phase($tournament_id)
 	{
 		$sql = 'SELECT * FROM "phase" 
-				WHERE "tournament_id"=? AND "is_started"=0 AND ("start_time"-CURRENT_TIMESTAMP) = 
+				WHERE "tournament_id"='.$tournament_id.' AND "is_started"=0 AND ("start_time"-CURRENT_TIMESTAMP) = 
 				(	
 					SELECT MIN("start_time"-CURRENT_TIMESTAMP)
 					FROM "phase" 
-					WHERE ("start_time" > CURRENT_TIMESTAMP)
+					WHERE ("start_time" > CURRENT_TIMESTAMP AND "tournament_id"='.$tournament_id.')
 				)';				
 		
-		$query=$this->db->query($sql,$tournament_id); 
+		$query=$this->db->query($sql); 
 		
 		//$result=$query->row_array();
 		

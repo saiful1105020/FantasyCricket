@@ -62,7 +62,6 @@
               <a href="<?php echo site_url('match'); ?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Match <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="<?php echo site_url('match/createMatch'); ?>">Create A Match </a></li>
-                <li><a href="<?php echo site_url('match/deleteMatch'); ?>">Delete A Match </a></li>
                 <li><a href="<?php echo site_url('match/updateMatchInfo'); ?>">Update Match Info </a></li>
                 <li><a href="<?php echo site_url('match/updateMatchStat'); ?>">Update Match Statistics </a></li>
               </ul>
