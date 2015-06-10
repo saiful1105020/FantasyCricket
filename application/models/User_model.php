@@ -84,7 +84,7 @@ class User_model extends CI_Model
 				(	
 					SELECT MIN("start_time"-CURRENT_TIMESTAMP)
 					FROM "match" 
-					WHERE ("start_time" > CURRENT_TIMESTAMP AND "is_started"=0 AND "tournament_id"=current_tournament())
+					WHERE ("start_time" > CURRENT_TIMESTAMP AND "is_started"=1 AND "tournament_id"=current_tournament())
 				)';				
 		
 		$query=$this->db->query($sql); 
