@@ -45,6 +45,7 @@ class Admin extends CI_Controller {
 		$this->load->model('admin_model');
 		$this->load->model('tournament_model');
 		$this->load->model('team_model');
+		$this->load->model('match_model');
 		
 		//$data['active_page']='home';
 		/**
@@ -72,7 +73,7 @@ class Admin extends CI_Controller {
 		
 		if($query->num_rows()==0)
 		{
-			die('No Active Tournament');
+			echo 'No Active Tournament';
 		}
 		else
 		{
@@ -80,62 +81,67 @@ class Admin extends CI_Controller {
 			$data['tournament_name']=$result['tournament_name'];	//Current Tournament Name
 			
 			$tournament_id=$result['tournament_id'];				//Current Tournament ID
+			
+			/**
+			*	Get Upcoming Match Which has not been initiated by admin	
+			*	$data['home_team'], $data['away_team']
+			*	After initiation, all tables that requires a match instance are created
+			*/
+			
+			$query= $this->tournament_model->get_upcoming_match($tournament_id);
+			
+			if($query->num_rows()==0)
+			{
+				$data['home_team']='';				//Home Team ID -> Get Team Name Using Team Model
+				$data['away_team']='';				//Away Team ID -> Get Team Name Using Team Model
+				$data['match_id']='';
+			}
+			else
+			{
+				$result=$query->row_array();
+				$data['home_team']=$this->team_model->get_team_name($result['team1_id']);				//Home Team ID -> Get Team Name Using Team Model
+				$data['away_team']=$this->team_model->get_team_name($result['team2_id']);				//Away Team ID -> Get Team Name Using Team Model
+				$data['match_id']=$result['match_id'];
+			}
+			
+			/**
+			*	Get Recent 2 Phases Which Are Either Not Started Or Not Finished
+			*	$data['phases'] = array($phase1,$phase2);
+			*/
+			
+			$query= $this->tournament_model->get_upcoming_phase($tournament_id);
+			
+			if($query->num_rows()==0)
+			{
+				$data['upcoming_phase']='';
+				$data['phase_id']='';
+			}
+			else
+			{
+				$result=$query->row_array();
+				$data['upcoming_phase']=$result['phase_name'];
+				$data['phase_id']=$result['phase_id'];
+			}
+			
+			/**
+			*
+			*/
+			/*
+			$query= $this->tournament_model->get_last_completed_phase($tournament_id);
+			
+			if($query->num_rows()==0)
+			{
+				$data['completed_phase']='';
+			}
+			else
+			{
+				$result=$query->row_array();
+				$data['completed_phase']=$result['phase_name'];											
+			}
+			*/
+			
+			$this->load->view('admin_home',$data);
 		}
-		
-		/**
-		*	Get Upcoming Match Which has not been initiated by admin	
-		*	$data['home_team'], $data['away_team']
-		*	After initiation, all tables that requires a match instance are created
-		*/
-		
-		$query= $this->tournament_model->get_upcoming_match($tournament_id);
-		
-		if($query->num_rows()==0)
-		{
-			$data['home_team']='';				//Home Team ID -> Get Team Name Using Team Model
-			$data['away_team']='';				//Away Team ID -> Get Team Name Using Team Model
-		}
-		else
-		{
-			$result=$query->row_array();
-			$data['home_team']=$this->team_model->get_team_name($result['team1_id']);				//Home Team ID -> Get Team Name Using Team Model
-			$data['away_team']=$this->team_model->get_team_name($result['team2_id']);				//Away Team ID -> Get Team Name Using Team Model
-		}
-		
-		/**
-		*	Get Recent 2 Phases Which Are Either Not Started Or Not Finished
-		*	$data['phases'] = array($phase1,$phase2);
-		*/
-		
-		$query= $this->tournament_model->get_upcoming_phase($tournament_id);
-		
-		if($query->num_rows()==0)
-		{
-			$data['upcoming_phase']='';
-		}
-		else
-		{
-			$result=$query->row_array();
-			$data['upcoming_phase']=$result['phase_name'];											
-		}
-		
-		/**
-		*
-		*/
-		
-		$query= $this->tournament_model->get_last_completed_phase($tournament_id);
-		
-		if($query->num_rows()==0)
-		{
-			$data['completed_phase']='';
-		}
-		else
-		{
-			$result=$query->row_array();
-			$data['completed_phase']=$result['phase_name'];											
-		}
-		
-		$this->load->view('admin_home',$data);
 		
 	}
 	
@@ -158,13 +164,17 @@ class Admin extends CI_Controller {
 		}
 		
 		//echo $query->num_rows().'<br/>';
-		$data=$query->result_array();
+		$data['fixture']=$query->result_array();
 		
-		foreach($data as $row)
+		/*
+		foreach($data['fixture'] as $row)
 		{
 			print_r($row);				//Load View Fixture  with $data
 			echo '<br/>';
 		}
+		*/
+		
+		$this->load->view('schedule',$data);
 	}
 	
 	public function results()
@@ -184,4 +194,26 @@ class Admin extends CI_Controller {
 			echo '<br/>';
 		}
 	}
+	
+	public function start_phase_action($phase_id)
+	{
+		$query= $this->admin_model->start_phase($phase_id);
+		$data['success']=1;
+		$this->load->view('success_status',$data);
+	}
+	
+	public function start_match_action($match_id)
+	{
+		echo $match_id;
+		$query= $this->admin_model->start_match($match_id);
+		//$query = $this->match_model->create_player_match_points(43, 4);
+		$data['success']=1;
+		$this->load->view('success_status',$data);
+	}
+	
+	public function test($param)
+	{
+		$this->team_model->get_tournament_team_players($paramm);
+	}
+	
 }

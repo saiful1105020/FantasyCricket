@@ -33,6 +33,7 @@ class Match extends CI_Controller {
 		
 		//$data['active_page']='match';
 		$this->load->view('templates/header');
+		
     }
 	 
 	
@@ -47,15 +48,24 @@ class Match extends CI_Controller {
 	
 	public function createMatch()
 	{
-		$data['step']=0;
 		
-		$query=$this->tournament_model->get_active_tournament_teams();
+		$tid=$this->tournament_model->get_active_tournament_id();
+		if($tid==NULL)
+		{
+			echo 'No Active Tournament';
+		}
+		else
+		{
+			$data['step']=0;
+			
+			$query=$this->tournament_model->get_active_tournament_teams();
 
-		$data['teams']=$query->result_array();
-		$data['tournament_name']=$this->tournament_model->get_active_tournament_name();
-		$data['sameTeam']=false;
-		
-		$this->load->view('createNewMatch',$data);
+			$data['teams']=$query->result_array();
+			$data['tournament_name']=$this->tournament_model->get_active_tournament_name();
+			$data['sameTeam']=false;
+			
+			$this->load->view('createNewMatch',$data);
+		}
 	}
 	public function createMatch_proc()
 	{
@@ -131,6 +141,123 @@ class Match extends CI_Controller {
 	
 	public function updateMatchStat()
 	{
+		$query= $this->admin_model->get_fixture();		
+		
+		if($query->num_rows()==0)
+		{
+			echo "No Match Available for this tournament";
+		}
+		else
+		{
+			$data['matches']=$query->result_array();
+			$data['step']=0;
+			$this->load->view('updateMatchStates',$data);
+		}
+	}
+	
+	public function updateMatchStat_1()
+	{
+		$match_id = $_POST['match_id'];
+		//Load Match Updater Form
+		$data['step']=1;
+
+		$match=$this->match_model->get_match_info($match_id)->row_array();
+		$team['team_id']=$match['home_team_id'];
+
+		//$team['team2_id']=$data['away_team_id'];
+		$team['tournament_id']=$this->tournament_model->get_active_tournament_id();
+		$_SESSION['match_id']=$match_id;
+
+		$data['team_name']=$match['home_team_name'];
+		$data['result']=$this->team_model->get_tournament_team_players($team)->result_array();
+
+
+		$this->load->view('updateMatchStates',$data);
+		
+		
+	}
+
+
+	public function updateMatchStat_2()
+	{
+		$match_id = $_SESSION['match_id'];
+		//Load Match Updater Form
+		$data['step']=2;
+
+		$match=$this->match_model->get_match_info($match_id)->row_array();
+		$team['team_id']=$match['away_team_id'];
+
+		//$team['team2_id']=$data['away_team_id'];
+		$team['tournament_id']=$this->tournament_model->get_active_tournament_id();
+		
+		
+		$data['team_name']=$match['away_team_name'];
+		$data['result']=$this->team_model->get_tournament_team_players($team)->result_array();
+
+
+		$this->load->view('updateMatchStates',$data);
+		
+		
+	}
+
+	public function updateMatchStat_proc($num)
+	{		
+		$i=$_SESSION['noPlayers'];
+		$match_id = $_SESSION['match_id'];
+		for($count=1;$count<=$i;$count++)
+		{
+				$score_var="runs_score".$count;
+		      	$balls_play_var="balls_played".$count;
+		      	$fours_var="fours".$count;
+		      	$sixes_var="sixes".$count;
+		      	$Wickets_var="wickets".$count;
+		      	$balls_bowl_var="balls_bowled".$count;
+		      	$runs_con_var="runs_conceded".$count;
+		      	$maiden_var="maiden".$count;
+		      	$catch_var="catches".$count;
+		      	$stump_var="stumping".$count;
+		      	$runout_var="run_out".$count;
+		      	$id_var="player_id".$count;	
+			
+			$this->input->post($id_var)."<br>";
+			//UPDATE
+			$data['runs_scored']=$this->input->post($score_var);
+			$data['balls_played']=$this->input->post($balls_play_var);
+			$data['fours']=$this->input->post($fours_var);
+			$data['sixes']=$this->input->post($sixes_var);	
+			$data['wickets_taken']=$this->input->post($Wickets_var);
+			$data['balls_bowled']=$this->input->post($balls_bowl_var);
+			$data['runs_conceded']=$this->input->post($runs_con_var);
+			$data['maiden_overs']=$this->input->post($maiden_var);
+			$data['catches']=$this->input->post($catch_var);
+			$data['stumpings']=$this->input->post($stump_var);
+			$data['run_outs']=$this->input->post($runout_var);
+
+			$data['player_id']=$this->input->post($id_var);
+			$data['match_id']=$match_id;
+			
+			$this->match_model->update_match_points($data);
+			
+		}
+
+		if($num==0)
+		{
+			redirect('match/updateMatchStat_2','refresh');
+			// $this->updateMatchStat_2();
+		}
+		else if($num==1)
+		{
+			$this->admin_model->update_match_summary($match_id);
+			//$this->admin_model->update_motm_point($match_id)
+			unset(
+				$_SESSION['match_id'],
+				$_SESSION['noPlayers']
+			);
+			echo "Done";
+		}			
+		//$data['step']=1;
+		//$this->load->view('updateMatchStates',$data);
+		
 		
 	}
 }

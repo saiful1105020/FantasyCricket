@@ -11,16 +11,6 @@ class Tournament_model extends CI_Model
 	*	CREATE A PROCEDURE AND COMMENT OUT THE FUNCTION
 	*	DON'T FORGET TO REPLACE THE CODES ASSOCIATED WITH IT
 	*/
-	public function test()
-	{
-		$sql = 'exec update_player_match_point(1,42,44)';				
-		
-		$query=$this->db->query($sql); 
-		
-		//$result=$query->row_array();
-		
-		return $query->row_array();
-	}
 	
 	public function get_active_tournament()
 	{
@@ -33,15 +23,19 @@ class Tournament_model extends CI_Model
 		return $query;
 	}
 	
-	public function get_active_tournament_name()
+	public function get_previous_match_id()
 	{
-		$sql = 'SELECT "tournament_name" FROM "tournament" where "is_active"=1';				
+		$sql = 'SELECT "match_id" FROM "match" 
+				WHERE "tournament_id"=current_tournament() AND "is_started"=1 AND (CURRENT_TIMESTAMP-"start_time") = 
+				(	
+					SELECT MIN(CURRENT_TIMESTAMP-"start_time")
+					FROM "match" 
+					WHERE ("start_time" < CURRENT_TIMESTAMP AND "is_started"=1 AND "tournament_id"= current_tournament())
+				)';				
 		
 		$query=$this->db->query($sql); 
-		
-		$result=$query->row_array();
-		
-		return $result['tournament_name'];
+			
+		return $query->row_array();
 	}
 	
 	public function get_active_tournament_id()
@@ -53,6 +47,17 @@ class Tournament_model extends CI_Model
 		$result=$query->row_array();
 		
 		return $result['tournament_id'];
+	}
+	
+	public function get_active_tournament_name()
+	{
+		$sql = 'SELECT "tournament_name" FROM "tournament" where "is_active"=1';				
+		
+		$query=$this->db->query($sql); 
+		
+		$result=$query->row_array();
+		
+		return $result['tournament_name'];
 	}
 	
 	public function update_active_tournament($tournament_id)
@@ -78,55 +83,6 @@ class Tournament_model extends CI_Model
 		return $result['tournament_name'];
 	}
 	
-	public function get_tournament_info($tournament_id)
-	{
-		$sql = 'SELECT * FROM "tournament" where "tournament_id"=?';				
-		$query=$this->db->query($sql,$tournament_id); 
-		return $result=$query->row_array();
-	}
-	
-	public function get_phase_info($tournament_id)
-	{
-		$sql = 'SELECT * FROM "phase" where "tournament_id"=?';				
-		$query=$this->db->query($sql,$tournament_id); 
-		return $result=$query->result_array();
-	}
-	
-	public function get_upcoming_match($tournament_id)
-	{
-		$sql = 'SELECT * FROM "match" 
-				WHERE "tournament_id"='.$tournament_id.' AND "is_started"=0 AND ("start_time"-CURRENT_TIMESTAMP) = 
-				(	
-					SELECT MIN("start_time"-CURRENT_TIMESTAMP)
-					FROM "match" 
-					WHERE ("start_time" > CURRENT_TIMESTAMP AND "is_started"=0 AND "tournament_id"='.$tournament_id.')
-				)';				
-		
-		$query=$this->db->query($sql); 
-		
-		//$result=$query->row_array();
-		//print_r($result);
-		
-		return $query;
-	}
-	
-	public function get_upcoming_phase($tournament_id)
-	{
-		$sql = 'SELECT * FROM "phase" 
-				WHERE "tournament_id"='.$tournament_id.' AND "is_started"=0 AND ("start_time"-CURRENT_TIMESTAMP) = 
-				(	
-					SELECT MIN("start_time"-CURRENT_TIMESTAMP)
-					FROM "phase" 
-					WHERE ("start_time" > CURRENT_TIMESTAMP AND "is_started"=0 AND "tournament_id"='.$tournament_id.')
-				)';				
-		
-		$query=$this->db->query($sql); 
-		
-		//$result=$query->row_array();
-		
-		return $query;
-	}
-	
 	public function get_previous_match()
 	{
 		$sql = 'SELECT * FROM "match" 
@@ -142,32 +98,36 @@ class Tournament_model extends CI_Model
 		return $query;
 	}
 	
-	public function get_previous_match_id()
+	public function get_upcoming_match()			//CORRECT & USED
 	{
-		$sql = 'SELECT "match_id" FROM "match" 
-				WHERE "tournament_id"=current_tournament() AND "is_started"=1 AND (CURRENT_TIMESTAMP-"start_time") = 
+		//is_started must be 1 for user_end
+		$sql = 'SELECT * FROM "match" 
+				WHERE "tournament_id"=current_tournament() AND "is_started"=1 AND ("start_time"-CURRENT_TIMESTAMP) = 
 				(	
-					SELECT MIN(CURRENT_TIMESTAMP-"start_time")
+					SELECT MIN("start_time"-CURRENT_TIMESTAMP)
 					FROM "match" 
-					WHERE ("start_time" < CURRENT_TIMESTAMP AND "is_started"=1 AND "tournament_id"= current_tournament())
+					WHERE ("start_time" > CURRENT_TIMESTAMP AND "is_started"=1 AND "tournament_id"=current_tournament())
 				)';				
 		
 		$query=$this->db->query($sql); 
-			
-		return $query->row_array();
+		
+		//$result=$query->row_array();
+		//print_r($result);
+		
+		return $query;
 	}
 	
-	public function get_last_completed_phase($tournament_id)
+	public function get_upcoming_phase($tournament_id)
 	{
-		$sql = 	'SELECT * FROM "phase" 
-				WHERE "tournament_id"=1 AND "is_complete"=0 AND (CURRENT_TIMESTAMP-"finish_time") = 
+		$sql = 'SELECT * FROM "phase" 
+				WHERE "tournament_id"='.$tournament_id.' AND "is_started"=1 AND ("start_time"-CURRENT_TIMESTAMP) = 
 				(	
-					SELECT MIN(CURRENT_TIMESTAMP-"finish_time")
+					SELECT MIN("start_time"-CURRENT_TIMESTAMP)
 					FROM "phase" 
-					WHERE (CURRENT_TIMESTAMP> "finish_time")
-				)';
-				
-		$query=$this->db->query($sql,$tournament_id); 
+					WHERE ("start_time" > CURRENT_TIMESTAMP AND "tournament_id"='.$tournament_id.')
+				)';				
+		
+		$query=$this->db->query($sql); 
 		
 		//$result=$query->row_array();
 		
@@ -320,21 +280,25 @@ class Tournament_model extends CI_Model
 		}
 	}
 	
-	public function add_tournament_phase($phase_data)
+	public function get_result($tournament_id=0)
 	{
-		$sql = 'INSERT INTO "phase" VALUES(?,?,TO_DATE(?,\'YYYY-MM-DD HH24:MI:SS\'),TO_DATE(?,\'YYYY-MM-DD HH24:MI:SS\'),?,?,?,?)';
-		return $this->db->query($sql,$phase_data);
-	}
-	
-	
-	public function update_tournament_phase($phase_data)
-	{
-		$sql = 'UPDATE "phase" SET "phase_name" = ?,
-		"start_time" = TO_DATE(?,\'YY-MON-DD HH12:MI:SS AM\'),
-		"finish_time" = TO_DATE(?,\'YY-MON-DD HH12:MI:SS AM\'),
-		"free_transfers" = ? 
-		WHERE "phase_id" = ?';
+		if($tournament_id==0)
+		{
+			$tournament_id=$this->get_active_tournament_id();
+		}
 		
-		return $this->db->query($sql,array($phase_data['phase_name'],$phase_data['start_time'],$phase_data['finish_time'],$phase_data['free_transfers'],$phase_data['phase_id']));
+		$sql = 'SELECT M."start_time" as Time, T1."team_name" as "Home Team",
+				M."team1_total_runs" AS "RUNS",M."team1_wickets" AS "Wickets",
+				Floor((M."team1_balls")/6) AS "Overs", MOD(M."team1_balls",6) AS "Balls",
+				T2."team_name" as "Away Team",
+				M."team2_total_runs" AS "RUNS2",M."team2_wickets" AS "Wickets2",
+				Floor((M."team2_balls")/6) AS "Overs2", MOD(M."team2_balls",6) AS "Balls2"
+				from "match" M, "team" T1, "team" T2 
+				WHERE T1."team_id"=M."team1_id" AND T2."team_id"=M."team2_id" AND M."tournament_id"=? AND M."start_time"<CURRENT_TIMESTAMP
+				ORDER BY M."start_time" DESC';
+				
+		$query=$this->db->query($sql,array($tournament_id)); 
+		
+		return $query;
 	}
 }

@@ -1,0 +1,3 @@
+INSERT INTO "admin" VALUES ('Admin', '21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO "admin" VALUES ('Saiful', '1bd413de70f32142f4a33a94134c5690');
+INSERT INTO "admin" VALUES ('Neamul', '6ffc599b0cdaa13529668e6f9da41792');

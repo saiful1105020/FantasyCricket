@@ -1,0 +1,10 @@
+INSERT INTO "team" VALUES (41, 'Australia', NULL);
+INSERT INTO "team" VALUES (42, 'Pakistan', NULL);
+INSERT INTO "team" VALUES (23, 'Newzealand', NULL);
+INSERT INTO "team" VALUES (61, 'Test 78', NULL);
+INSERT INTO "team" VALUES (1, 'Test Team', NULL);
+INSERT INTO "team" VALUES (2, 'Test Team 2', NULL);
+INSERT INTO "team" VALUES (3, 'Test Team 3', NULL);
+INSERT INTO "team" VALUES (22, 'Bangladesh', NULL);
+INSERT INTO "team" VALUES (21, 'Demo 1', NULL);
+INSERT INTO "team" VALUES (24, 'Demo 4', NULL);

@@ -47,6 +47,16 @@ class Team_model extends CI_Model
 		$query=$this->db->query($sql,$team_id); 
 		return $query;
 	}
+	
+	public function get_tournament_team_players($team)
+	{
+		$sql = 'select P."name" as Player_name, P."player_id" as Player_id
+				from "player" P, "player_tournament" PT
+				where P."player_id" = PT."player_id" and P."team_id"=? and PT."tournament_id"=?';
+		$query = $this->db->query($sql,$team);
+		return $query;
+
+	}
 
 }
 ?>

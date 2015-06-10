@@ -1,0 +1,30 @@
+CREATE OR REPLACE 
+FUNCTION GET_USER_PHASE_POINT(u_id IN NUMBER,ph_id IN NUMBER)
+RETURN NUMBER IS
+
+	total NUMBER;
+	cur_tournament NUMBER;
+
+BEGIN
+
+	--cur_phase:=CURRENT_PHASE();
+	cur_tournament :=CURRENT_TOURNAMENT();
+	total:=0;
+
+	--pid:=41;
+
+	FOR R IN (SELECT M."match_id" as mid FROM "match" M, "phase" P
+						WHERE M."tournament_id"= cur_tournament
+						AND  P."phase_id" = ph_id
+						AND(M."start_time" BETWEEN P."start_time" AND P."finish_time" ))
+	LOOP
+		--DBMS_OUTPUT.PUT_LINE(R.mid);
+			total:=total + GET_USER_MATCH_POINT(u_id, R.MID);
+
+	END LOOP;
+
+	--DBMS_OUTPUT.PUT_LINE(total);
+	return total;
+
+END;
+/

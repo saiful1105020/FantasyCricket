@@ -18,10 +18,13 @@
       <div class="col-xs-3" style="text-align:center !important;float:left;">
         <h2><span class="label label-primary" > <?php echo $home_team; ?> </span><span class="label label-warning">Vs </span><span class="label label-primary"> <?php echo $away_team; ?> </span></h2>
       </div>
-      
+      <?php
+	  echo '<form method="POST" action="admin/start_match_action/'.$match_id.'">
       <div class="col-xs-3" style="text-align:center !important; float:left; vertical-align:top; padding:left">
-        <br><button type="button" class="btn btn-info"> Initialize Match </button><br>
+        <br><input type="submit" value="Initialize Match Data" class="btn btn-info">  </input><br>
       </div>
+	  </form>';
+	  ?>
 	  <!--
       <div class="col-xs-3" >
           <br><button type="button" class="btn btn-warning">End </button><br>
@@ -53,19 +56,25 @@
       <div class="col-xs-3" style="text-align:center !important;float:left;">
         <h2><span class="label label-default" > Upcoming Phase </span></h2>
       </div>
-      <div class="col-xs-3" style="text-align:center !important;float:left;">
+	  <div class="col-xs-3" style="text-align:center !important;float:left;">
         <h2><span class="label label-primary"> <?php echo $upcoming_phase ;?> </span></h2>
       </div>
+	  
+	  <?php
+	  echo '<form method="POST" action="admin/start_phase_action/'.$phase_id.'">
+				<div class="col-xs-3" style="text-align:center !important; float:left; vertical-align:top; padding:left">
+					<br><input type="submit" value="Initialize Phase Data" class="btn btn-info">  </input><br>
+				</div>
+	  </form>';
+	  ?>
+	  
       <!--
       <div class="col-xs-3" style="text-align:center !important; float:left; vertical-align:top; padding:left">
         <br><button type="button" class="btn btn-info">Start </button><br>
       </div>
 	  -->
-      <div class="col-xs-3" style="text-align:center !important; float:left; vertical-align:top; padding:left">
-          <br><button type="button" class="btn btn-warning"> Finalize Points </button><br>
-      </div>
     </div>
-
+	<!--
     <hr>
     <div style="height:60px"> 
       <div class="col-xs-3" style="text-align:center !important;float:left;">
@@ -79,10 +88,12 @@
         <br><button type="button" class="btn btn-info">Start </button><br>
       </div>
 	  -->
+	  <!--
       <div class="col-xs-3" style="text-align:center !important; float:left; vertical-align:top; padding:left">
-          <br><button type="button" class="btn btn-info"> Initialize Phase </button><br>
+          <br><button type="button" class="btn btn-success"> Finalize Phase Data</button><br>
       </div>
     </div>
+	-->
 	<hr>
 
   </body>

@@ -47,7 +47,6 @@
               <ul class="dropdown-menu" role="menu">
                 <li><a href="<?php echo site_url('phase/addPhases'); ?>">Create Tournament Phases </a></li>
                 <li><a href="<?php echo site_url('phase/updatePhases'); ?>">Update Tournament Phases </a></li>
-                <li><a href="<?php echo site_url('phase/updateInterPhase'); ?>">Update Inter-phase </a></li>
               </ul>
             </li>
              <li class="dropdown">

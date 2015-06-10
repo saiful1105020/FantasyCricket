@@ -1,0 +1,56 @@
+-----------------------------------------------------------
+***			TEST FILE				***
+-----------------------------------------------------------
+
+Tournament Name: Test 01
+Start Date: 31 May 2015
+End Date: 28 June 2015
+
+-----------------------------------------------------------
+***			PHASES				***
+-----------------------------------------------------------
+
+1. Group Stage
+
+Start Date: 07 June 2015 00:00
+End Date: 20 June 2015 23:59
+
+2. Semi Final
+
+Start Date: 21 June 2015 00:00
+End Date: 26 June 2015 23:59
+
+3. Final
+
+Start Date: 27 June 2015 00:00
+End Date: 27 June 2015 23:59
+
+-----------------------------------------------------------
+***			PHASE-Group Satge			***
+-----------------------------------------------------------
+Group 1. AUS-BD-IND-PAK-NZ
+Group 2. SA-ENG-WI-ZIM-SL
+
+1. AUS vs BD
+Start Date: 08 June 2015 02:00 PM
+End Date: 08 June 2015 10:00	PM
+
+2. SA vs ENG
+Start Date: 09 June 2015 02:00 PM
+End Date: 09 June 2015 10:00	PM
+
+3. IND vs PAK
+Start Date: 10 June 2015 02:00 PM
+End Date: 10 June 2015 10:00	PM
+
+4. WI vs ZIM
+Start Date: 11 June 2015 02:00 PM
+End Date: 11 June 2015 10:00	PM
+
+5. BD vs NZ
+Start Date: 12 June 2015 02:00 PM
+End Date: 12 June 2015 10:00	PM
+
+6. ENG vs SL
+Start Date: 13 June 2015 02:00 PM
+End Date: 13 June 2015 10:00	PM

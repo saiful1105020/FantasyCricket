@@ -1,0 +1,34 @@
+-------------------------------------------------------------------
+***			INITIALIZE MATCH DATA			***
+-------------------------------------------------------------------
+
+Initialize match data for the next match ASAP
+after every match is started
+
+Say, Fixture is:
+
+1. BD vs IND
+2. PAK vs AUS
+
+* Initialize BD vs IND at the very begining of the tournament
+* Initialize PAK vs AUS after the start of BD vs IND match
+
+
+Don't be lazy to start a match. If you don't start a match, 
+user can't transfer players/create team for the above match
+
+Probably, this is the most important thing for system consistency
+
+If you don't start this, the upcoming match team will not be shown also.
+
+-------------------------------------------------------------------
+***			UPDATE MATCH STAT			***
+-------------------------------------------------------------------
+
+Update stat if and only if the match is started
+
+-------------------------------------------------------------------
+***			CREATE MATCH				***
+-------------------------------------------------------------------
+
+Create Match -> start date must be after current time

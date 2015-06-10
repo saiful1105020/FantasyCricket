@@ -8,11 +8,11 @@ class Team extends CI_Controller {
           parent::__construct();
 		  
 		  //Load Necessary Libraries and helpers
-          $this->load->library('session');
-          $this->load->helper('form');
-          $this->load->helper('url');
-          $this->load->helper('html');
-		  $this->load->library('form_validation');
+         $this->load->library('session');
+         $this->load->helper('form');
+         $this->load->helper('url');
+         $this->load->helper('html');
+		 $this->load->library('form_validation');
 		  
 		if(isset($_SESSION["user_id"]))
 		{
@@ -219,11 +219,19 @@ class Team extends CI_Controller {
 	
 	public function updateTeamSheet()
 	{
-		$query=$this->tournament_model->get_active_tournament_teams();
-		$data['teams']=$query->result_array();
-		$data['step']=0;
-		$this->load->view('updateTeamSheet',$data);
-		//echo 'updateTeamSheet';
+		$tid=$this->tournament_model->get_active_tournament_id();
+		if($tid==NULL)
+		{
+			echo 'No Active Tournament';
+		}
+		else
+		{
+			$query=$this->tournament_model->get_active_tournament_teams();
+			$data['teams']=$query->result_array();
+			$data['step']=0;
+			$this->load->view('updateTeamSheet',$data);
+			//echo 'updateTeamSheet';
+		}
 	}
 
 	public function updateTeamSheet_1()
