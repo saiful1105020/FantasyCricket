@@ -2,55 +2,34 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
 	 
-	 //private $loginFlag;		//$loginFlag = false show "Login Failed" in the view
-	 
-	 
-	 public function __construct()
+	 public function __construct() 
      {
           parent::__construct();
 		  
-		  //Load Necessary Libraries and helpers
-          $this->load->library('session');
+		  //1. Load Necessary Libraries and helpers
+          
+		  $this->load->library('session');
           $this->load->helper('form');
           $this->load->helper('url');
           $this->load->helper('html');
 		  $this->load->library('form_validation');
+		  
+		  //2. Load Models
 		  $this->load->model('user_model');
+		  
+		  //3. Load Template
+		  $this->load->view('templates/header');
      }
 	 
-	public function index()
+	public function index()	
 	{
 		if(isset($_SESSION["user_id"]))
-		{
-			//Comment The 'echo's 
-			//Redirect To Homepage
-			
-			//echo 'Already Logged In. </br>';
-			//echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
-			
+		{			
 			redirect('/user', 'refresh');
 		}
 		else
 		{
-			
-			$this->load->view('templates/header');
 			
 			$data = array(
                'login_error' => false,
@@ -59,11 +38,11 @@ class Home extends CI_Controller {
 			
 			$this->load->view('home',$data);
 		}
+		
 	}
 	
-	public function login()
+	public function login()	
 	{
-		
 		$data = array('email'=>trim($_POST['email']),'password'=>md5($_POST["password"]));
 		
 		$query= $this->user_model->get_loginInfo($data);
@@ -75,10 +54,6 @@ class Home extends CI_Controller {
 			$_SESSION["user_id"]=$loginInfo['user_id'];
 			$_SESSION["user_name"]=$loginInfo['user_name'];
 			
-			
-            //echo 'Success </br>';
-			//echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
-			//Load User Home Page
 			redirect('/user', 'refresh');
 		}
 		else
@@ -87,21 +62,15 @@ class Home extends CI_Controller {
                'login_error' => true,
 			   'registration_success' => false
 			);
-			$this->load->view('templates/header');
-			
 			$this->load->view('home',$data);
-			
 		}
 	}
 	
-	public function register()
+	public function register()	
 	{
 		if(isset($_SESSION["user_id"]))
 		{
-			//Comment The 'echo's 
-			//Redirect To Homepage
-			echo 'Already Logged In. </br>';
-			echo 'Welcome :D </br>'.$_SESSION['user_name'].'</br>';
+			redirect('/user', 'refresh');
 		}
 		else
 		{
@@ -109,28 +78,12 @@ class Home extends CI_Controller {
 				'password_match_error' => false,
 				'already_exist_error'=> false
 			);
-			$this->load->view('templates/header');
 			$this->load->view('registration',$data);
 		}
-
 	}
 	
-	/**
-	*	Add An Admin
-	*	Predefined
-	public function register_admin()
-	{
-		$data['admin_id'] ="Admin";
-		$data['password'] =md5("admin");
-		
-		$this->user_model->register_admin($data);
-		
-		echo "Admin Added";
-				
-	}
-	*/
 	
-	public function register_proc()
+	public function register_proc()					//NEED TO SOLVE SOME DESIGN ISSUE(VIEW)
 	{
 			$pass=md5($this->input->post('password'));
 			$conpass=md5($this->input->post('confirm_password'));
@@ -141,9 +94,7 @@ class Home extends CI_Controller {
 				'password_match_error' => true,
 				'already_exist_error'=> false
 				);
-				$this->load->view('templates/header');
 				$this->load->view('registration',$data);
-				//echo 'Password and confirm_password Not Matched';
 			}
 			
 			else
@@ -154,13 +105,18 @@ class Home extends CI_Controller {
 				$data['email'] =trim($this->input->post('email'));
 				$data['password'] =$pass;
 				
-				if(isset($_POST['birthday']) && !empty($_POST['birthday'])) $data['birthday'] =$this->input->post('birthday');
+				if(isset($_POST['day'])&&isset($_POST['month'])&&isset($_POST['year']))
+				{
+					$day=$_POST['day'];
+					$month=$_POST['month'];
+					$year=$_POST['year'];
+					$data['birthday']=$year.'-'.$month.'-'.$day;
+				}
 				else $data['birthday'] ='';
-
+				
 				if(isset($_POST['country']) && !empty($_POST['country'])) $data['country'] =$this->input->post('country');
 				else $data['country'] ='';
-
-
+				
 				$exists= $this->user_model->exist_user($data['email']);
 
 				if($exists==1)
@@ -169,10 +125,7 @@ class Home extends CI_Controller {
 					'password_match_error' => false,
 					'already_exist_error'=> true
 					);
-					$this->load->view('templates/header');
-					$this->load->view('registration',$data);
-					
-					//echo '</br> User Already Exists';
+					$this->load->view('registration',$data);					
 				}
 				else
 				{
@@ -181,42 +134,39 @@ class Home extends CI_Controller {
 					   'login_error' => false,
 					   'registration_success' => true
 					);
-					$this->load->view('templates/header');
 					
-					$this->load->view('home',$data);
-					
-					//echo '</br> Registered Successfully';
+					$this->load->view('home',$data);	
 				}
-				
 			}
+			
 	}
 	
-	public function schedules()
+	public function schedules()		//LATER
 	{
 		echo "Schedule Test";
 	}
 	
-	public function results()
+	public function results()		//LATER
 	{
 		echo "Result Test";
 	}
 	
-	public function pointTable()
+	public function pointTable()	//LATER
 	{
 		echo "pointTable Test";
 	}
 	
-	public function howToPlay()
+	public function howToPlay()		//LATER
 	{
 		echo "howToPlay Test";
 	}
 	
-	public function rules()
+	public function rules()			//LATER
 	{
 		echo "Rules Test";
 	}
 	
-	public function scoring()
+	public function scoring()		//LATER
 	{
 		echo "scorings Test";
 	}

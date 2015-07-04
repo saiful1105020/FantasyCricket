@@ -68,7 +68,38 @@
     </a>
   </div>
 </div>
-
+<table>
+	<tr height="50"></tr>
+</table>
+<footer>
+<div class="panel panel-default" class="navbar navbar-inverse">
+    <div class="panel-body">
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a>About Us</a></li>
+                <li><a>Services Provided</a></li>
+                <li><a>Contact Us</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Portfolio <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">1 Column Portfolio</a></li>
+                        <li><a href="#">2 Column Portfolio</a></li>
+                        <li><a href="#">Single Portfolio Item</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Blog Section</a></li>
+                        <li><a href="#">Blog Section</a></li>
+                        <li><a href="#">Blog Section</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</footer>
 <script type="text/javascript" src="<?php echo base_url("assets/js/jquery-1.11.2.min.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/bootstrap.js"); ?>"></script>
 
